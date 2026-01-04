@@ -1,0 +1,174 @@
+.experience-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* WRAPPER */
+.timeline-wrapper {
+  position: relative;
+  padding-left: 80px;
+}
+
+/* LINE — grows with arrow (FASTER) */
+.timeline-line {
+  position: absolute;
+  left: 32px;
+  top: 0;
+  width: 4px;
+  height: 0;
+  background-color: #999;
+  border-radius: 999px;
+
+  animation: growLine 2.1s ease-in-out forwards;
+  transform-origin: top;
+}
+
+@keyframes growLine {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+/* ARROW — faster & aligned */
+.timeline-arrow {
+  position: absolute;
+  left: calc(32px - 10px);
+  top: -12px;
+
+  animation: moveArrow 2.1s ease-in-out forwards;
+}
+
+@keyframes moveArrow {
+  from {
+    top: -12px;
+  }
+  to {
+    top: calc(100% - 12px);
+  }
+}
+
+/* LIST */
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ITEM reveal */
+.timeline-item {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: revealExperience 0.55s ease-out forwards;
+}
+
+@keyframes revealExperience {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ROW hover effect */
+.experience-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 280px;
+  gap: 32px;
+  align-items: flex-start;
+
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+
+.experience-row:hover {
+  transform: scale(0.97);
+}
+
+/* LEFT */
+.experience-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.experience-left img {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 1px solid #e5e5e5;
+}
+
+.period {
+  font-size: 13px;
+  color: #999;
+}
+
+/* CENTER */
+.experience-center h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.company {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* RIGHT */
+.experience-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* SKILL PILL */
+.skill-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+
+  font-size: 12px;
+  border-radius: 8px;
+  border: 1px solid #999;
+  background-color: #999;
+  color: #f5f5f5;
+
+  transition: all 0.25s ease;
+}
+
+.skill-pill:hover {
+  background-color: #b0b0b0;
+  border-color: #b0b0b0;
+  color: #ffffff;
+}
+
+.skill-icon {
+  font-size: 14px;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .experience-row {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-right {
+    justify-content: flex-start;
+  }
+}

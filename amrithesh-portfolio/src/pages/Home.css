@@ -1,0 +1,169 @@
+/* OUTER CONTAINER */
+.page-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* INNER CONTENT WIDTH (controls side margins) */
+.home-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: 1180px; /* ✅ reduced width for better margins */
+  padding: 0 40px;
+
+  gap: 56px; /* ✅ reduced gap between text & image */
+
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* LEFT HERO CONTENT */
+.hero-content {
+  flex: 1;
+  max-width: 680px;
+}
+
+/* SUBTITLE */
+.subtitle {
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  color: #999;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* NAME */
+.name {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.05;
+  color: #000;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+
+.last-name {
+  color: #999;
+}
+
+/* DESCRIPTION */
+.description {
+  font-size: 18px;
+  line-height: 1.75;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* INLINE HIGHLIGHT */
+.highlight {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  color: #5b5fc7;
+  font-weight: 500;
+}
+
+/* AVAILABILITY */
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #5b5fc7;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.location {
+  color: #999;
+}
+
+/* RIGHT PROFILE SIDE */
+.profile-side {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PROFILE IMAGE (INCREASED SIZE) */
+.profile-image-wrapper {
+  width: 320px; /* ✅ increased */
+  height: 320px; /* ✅ increased */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #e5e5e5;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RESPONSIVE TYPOGRAPHY */
+@media (min-width: 640px) {
+  .name {
+    font-size: 60px;
+  }
+
+  .description {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .name {
+    font-size: 72px;
+  }
+}
+
+/* RESPONSIVE LAYOUT */
+@media (max-width: 1100px) {
+  .home-inner {
+    flex-direction: column-reverse;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .profile-image-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-inner {
+    padding: 0 20px;
+  }
+
+  .profile-image-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+}
