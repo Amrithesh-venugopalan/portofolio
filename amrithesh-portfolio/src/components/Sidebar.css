@@ -11,10 +11,9 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   position: fixed;
   left: 30px;
-  top: 50%; /* ✅ Center vertically */
-  transform: translateY(-50%); /* ✅ Offset by half its height */
-  height: auto; /* ✅ Let content determine height */
-  max-height: 50vh; /* ✅ Optional: limit maximum height */
+  top: 50%;
+  transform: translateY(-50%);
+  height: auto;
   z-index: 100;
 }
 
@@ -43,18 +42,47 @@
   color: white;
 }
 
+/* Mobile: Horizontal Bottom Navigation */
 @media (max-width: 768px) {
   .sidebar {
-    width: 60px;
-    left: 10px;
-    top: 10px;
+    width: calc(100% - 20px);
+    height: 70px;
+    max-width: 500px;
+    left: 50%;
+    top: auto;
     bottom: 10px;
-    height: calc(100vh - 20px);
-    border-radius: 30px;
+    transform: translateX(-50%);
+    flex-direction: row;
+    padding: 0 15px;
+    border-radius: 35px;
+    gap: 5px;
+    justify-content: space-around;
+  }
+
+  .sidebar-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .sidebar-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    height: 65px;
+    padding: 0 10px;
   }
 
   .sidebar-btn {
     width: 40px;
     height: 40px;
+  }
+
+  .sidebar-btn svg {
+    width: 16px;
+    height: 16px;
   }
 }

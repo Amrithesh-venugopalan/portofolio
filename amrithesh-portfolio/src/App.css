@@ -24,11 +24,35 @@ body {
   flex: 1;
   margin-left: 80px;
   margin-right: 80px;
-  padding: 60px 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  height: 100vh;
+
+  /* Hide scrollbar for all browsers */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.main-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each section takes full viewport height */
+.page-section {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 60px 80px;
+}
+
+/* Container for page content */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .page-title {
@@ -56,8 +80,9 @@ body {
   color: #999;
 }
 
+/* Responsive Design */
 @media (max-width: 1200px) {
-  .main-content {
+  .page-section {
     padding: 50px 60px;
   }
 
@@ -68,9 +93,12 @@ body {
 
 @media (max-width: 768px) {
   .main-content {
-    margin-left: 60px;
-    margin-right: 60px;
-    padding: 40px 30px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .page-section {
+    padding: 40px 20px 100px 20px; /* Extra bottom padding for bottom nav */
   }
 
   .page-title {
@@ -79,5 +107,19 @@ body {
 
   .page-description {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-section {
+    padding: 30px 15px 100px 15px;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+
+  .page-description {
+    font-size: 14px;
   }
 }

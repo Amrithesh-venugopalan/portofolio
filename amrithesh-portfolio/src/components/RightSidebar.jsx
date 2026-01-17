@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FileDown,
   GitBranch,
@@ -7,71 +7,101 @@ import {
   Pencil,
   Instagram,
   Mail,
+  Menu,
+  X,
 } from "lucide-react";
 import "./RightSidebar.css";
 
 const RightSidebar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleCLIClick = () => {
-    // Add CLI functionality later
     console.log("CLI clicked");
+    setIsMenuOpen(false);
   };
 
   const handleDownloadResume = () => {
-    // Add resume download functionality
     console.log("Download resume");
+    setIsMenuOpen(false);
   };
 
   const handleGitHub = () => {
     window.open("https://github.com/yourusername", "_blank");
+    setIsMenuOpen(false);
   };
 
   const handleInstagram = () => {
     window.open("https://instagram.com/yourusername", "_blank");
+    setIsMenuOpen(false);
   };
 
   const handleEmail = () => {
     window.location.href = "mailto:your.email@example.com";
+    setIsMenuOpen(false);
   };
 
+  const menuItems = [
+    { icon: FileDown, label: "Download Resume", onClick: handleDownloadResume },
+    { icon: GitBranch, label: "GitHub", onClick: handleGitHub },
+    { icon: Code, label: "Code", onClick: () => setIsMenuOpen(false) },
+    { icon: BarChart, label: "Analytics", onClick: () => setIsMenuOpen(false) },
+    { icon: Pencil, label: "Blog", onClick: () => setIsMenuOpen(false) },
+    { icon: Instagram, label: "Instagram", onClick: handleInstagram },
+    { icon: Mail, label: "Email", onClick: handleEmail },
+  ];
+
   return (
-    <div className="right-sidebar">
-      <button className="right-sidebar-btn" onClick={handleCLIClick}>
-        CLI
-      </button>
-      <button
-        className="sidebar-icon-btn"
-        onClick={handleDownloadResume}
-        title="Download Resume"
-      >
-        <FileDown size={20} />
-      </button>
-      <button
-        className="sidebar-icon-btn"
-        onClick={handleGitHub}
-        title="GitHub"
-      >
-        <GitBranch size={20} />
-      </button>
-      <button className="sidebar-icon-btn" title="Code">
-        <Code size={20} />
-      </button>
-      <button className="sidebar-icon-btn" title="Analytics">
-        <BarChart size={20} />
-      </button>
-      <button className="sidebar-icon-btn" title="Blog">
-        <Pencil size={20} />
-      </button>
-      <button
-        className="sidebar-icon-btn"
-        onClick={handleInstagram}
-        title="Instagram"
-      >
-        <Instagram size={20} />
-      </button>
-      <button className="sidebar-icon-btn" onClick={handleEmail} title="Email">
-        <Mail size={20} />
-      </button>
-    </div>
+    <>
+      {/* Desktop: Vertical Sidebar */}
+      <div className="right-sidebar desktop-only">
+        <button className="right-sidebar-btn" onClick={handleCLIClick}>
+          CLI
+        </button>
+        {menuItems.map((item, index) => (
+          <button
+            key={index}
+            className="sidebar-icon-btn"
+            onClick={item.onClick}
+            title={item.label}
+          >
+            <item.icon size={20} />
+          </button>
+        ))}
+      </div>
+
+      {/* Mobile: Hamburger Menu */}
+      <div className="mobile-menu-container">
+        <button
+          className="hamburger-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Dropdown Menu */}
+        {isMenuOpen && (
+          <>
+            <div
+              className="menu-overlay"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            <div className="dropdown-menu">
+              {menuItems.map((item, index) => (
+                <button
+                  key={index}
+                  className="dropdown-item"
+                  onClick={item.onClick}
+                >
+                  <item.icon size={20} />
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
