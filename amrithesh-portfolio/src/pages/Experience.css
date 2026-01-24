@@ -2,8 +2,9 @@
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* WRAPPER */
@@ -12,59 +13,23 @@
   padding-left: 80px;
 }
 
-/* LINE — grows with arrow (FASTER) */
-.timeline-line {
-  position: absolute;
-  left: 32px;
-  top: 0;
-  width: 4px;
-  height: 0;
-  background-color: #999;
-  border-radius: 999px;
-
-  animation: growLine 2.1s ease-in-out forwards;
-  transform-origin: top;
-}
-
-@keyframes growLine {
-  from {
-    height: 0;
-  }
-  to {
-    height: 100%;
-  }
-}
-
-/* ARROW — faster & aligned */
-.timeline-arrow {
-  position: absolute;
-  left: calc(32px - 10px);
-  top: -12px;
-
-  animation: moveArrow 2.1s ease-in-out forwards;
-}
-
-@keyframes moveArrow {
-  from {
-    top: -12px;
-  }
-  to {
-    top: calc(100% - 12px);
-  }
-}
-
 /* LIST */
 .timeline-list {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 0;
 }
 
 /* ITEM reveal */
 .timeline-item {
   opacity: 0;
   transform: translateY(12px);
-  animation: revealExperience 0.55s ease-out forwards;
+  animation: revealExperience 0.75s ease-out forwards;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
 }
 
 @keyframes revealExperience {
@@ -74,19 +39,19 @@
   }
 }
 
-/* ROW hover effect */
+/* ROW with toggle arrow */
 .experience-row {
+  position: relative;
   display: grid;
-  grid-template-columns: 160px 1fr 280px;
-  gap: 32px;
+  grid-template-columns: 180px 1fr 320px;
+  gap: 40px;
   align-items: flex-start;
-
-  transition: transform 0.35s ease;
-  will-change: transform;
-}
-
-.experience-row:hover {
-  transform: scale(0.97);
+  padding: 36px 32px;
+  padding-bottom: 64px;
+  border-radius: 0;
+  background-color: transparent;
+  min-height: 200px;
+  transition: none;
 }
 
 /* LEFT */
@@ -95,11 +60,12 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  padding-left: 0;
 }
 
 .experience-left img {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 18px;
   object-fit: cover;
   border: 1px solid #e5e5e5;
@@ -110,16 +76,29 @@
   color: #999;
 }
 
+/* Mobile period - hidden on desktop */
+.period-mobile {
+  display: none;
+  font-size: 13px;
+  color: #999;
+}
+
 /* CENTER */
+.experience-center {
+  min-height: 120px;
+  padding-left: 0;
+}
+
 .experience-center h3 {
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .company {
   font-size: 14px;
   color: #666;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .desc {
@@ -128,12 +107,28 @@
   line-height: 1.7;
 }
 
+/* Desktop: show description in center, hide mobile version */
+.desc-desktop {
+  display: block;
+}
+
+.desc-mobile {
+  display: none;
+}
+
+/* Mobile description wrapper - hidden on desktop */
+.experience-description {
+  display: none;
+}
+
 /* RIGHT */
 .experience-right {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
+  align-content: flex-start;
+  padding-right: 0;
 }
 
 /* SKILL PILL */
@@ -141,34 +136,416 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-
-  font-size: 12px;
+  padding: 7px 14px;
+  font-size: 14px;
   border-radius: 8px;
-  border: 1px solid #999;
-  background-color: #999;
-  color: #f5f5f5;
-
-  transition: all 0.25s ease;
-}
-
-.skill-pill:hover {
-  background-color: #b0b0b0;
-  border-color: #b0b0b0;
-  color: #ffffff;
+  border: 1px solid #d5d5d5;
+  background-color: white;
+  color: #999;
 }
 
 .skill-icon {
   font-size: 14px;
+  color: #999;
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
-  .experience-row {
-    grid-template-columns: 1fr;
+/* =====================================================
+   DESKTOP HOVER (≥ 1021px ONLY)
+   ===================================================== */
+@media (hover: hover) and (min-width: 1021px) {
+  .experience-left {
+    transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .experience-row:hover .experience-left {
+    padding-left: 20px;
+  }
+
+  .experience-center {
+    transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .experience-row:hover .experience-center {
+    padding-left: 20px;
+  }
+
+  .experience-center h3 {
+    transition: color 0.25s ease;
+  }
+
+  .experience-row:hover .experience-center h3 {
+    color: #333;
   }
 
   .experience-right {
+    transition: padding-right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .experience-row:hover .experience-right {
+    padding-right: 20px;
+  }
+
+  .skill-pill {
+    transition: border 0.25s ease;
+  }
+
+  .experience-row:hover .skill-pill {
+    border: 1px solid #999;
+  }
+}
+
+/* =====================================================
+   MOBILE / TABLET (≤ 1020px)
+   NO HOVER EFFECTS - COMPLETELY DISABLED
+   ===================================================== */
+@media (max-width: 1020px) {
+  /* Disable all hover effects */
+  .experience-row,
+  .experience-row:hover {
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .experience-row * {
+    transition: none !important;
+  }
+
+  /* No padding changes on hover */
+  .experience-row:hover .experience-left,
+  .experience-row:hover .experience-center,
+  .experience-row:hover .experience-right {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* No color/border changes on hover */
+  .experience-row:hover .experience-center h3 {
+    color: inherit !important;
+  }
+
+  .experience-row:hover .skill-pill {
+    border: 1px solid #d5d5d5 !important;
+  }
+}
+
+/* TOGGLE ARROW BUTTON */
+.toggle-arrow {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.toggle-arrow:hover {
+  color: #666;
+}
+
+/* Smooth chevron rotation */
+.chevron-icon {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg) !important;
+}
+
+/* EXPANDED DETAILS */
+.experience-details {
+  padding: 0 32px 32px 32px;
+  background-color: transparent;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.details-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.details-content p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.details-links {
+  margin-top: 16px;
+}
+
+.detail-link {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  background-color: white;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  color: #666;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.detail-link:hover {
+  background-color: #f5f5f5;
+  border-color: #b0b0b0;
+  color: #333;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+
+/* Large tablets and small desktops */
+@media (max-width: 1416px) {
+  .timeline-wrapper {
+    padding: 0 40px 100px 40px;
+  }
+
+  .experience-row {
+    grid-template-columns: 160px 1fr 280px;
+    gap: 30px;
+    padding: 32px 20px;
+    padding-bottom: 60px;
+  }
+}
+
+/* Medium tablets */
+@media (max-width: 1120px) {
+  .timeline-wrapper {
+    padding: 0 20px 100px 20px;
+  }
+
+  .experience-row {
+    grid-template-columns: 140px 1fr 260px;
+    gap: 24px;
+  }
+
+  .experience-left img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Small tablets - SWITCH TO MOBILE LAYOUT */
+@media (max-width: 900px) {
+  .timeline-wrapper {
+    padding: 0 20px 100px 20px;
+  }
+
+  .experience-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "left center"
+      "desc desc"
+      "pills pills";
+    gap: 16px;
+    column-gap: 16px;
+    padding: 28px 20px;
+    padding-bottom: 56px;
+  }
+
+  /* Image + period stays on left */
+  .experience-left {
+    grid-area: left;
+    align-self: start;
+  }
+
+  .experience-left img {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Hide period below image on mobile */
+  .experience-left .period {
+    display: none;
+  }
+
+  /* Role and company sit next to image */
+  .experience-center {
+    grid-area: center;
+    min-height: auto;
+    padding-left: 0;
+  }
+
+  .experience-center h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  .company {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  /* Show period below company name on mobile */
+  .period-mobile {
+    display: block;
+    font-size: 12px;
+    color: #999;
+  }
+
+  /* Hide desktop description, show mobile description */
+  .desc-desktop {
+    display: none;
+  }
+
+  .desc-mobile {
+    display: block;
+  }
+
+  /* Description appears as separate block below */
+  .experience-description {
+    display: block;
+    grid-area: desc;
+  }
+
+  .desc {
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Pills span full width at bottom */
+  .experience-right {
+    grid-area: pills;
     justify-content: flex-start;
+    padding-right: 0;
+  }
+
+  .skill-pill {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* Standard mobile phones - Keep same layout, adjust sizes */
+@media (max-width: 768px) {
+  .timeline-wrapper {
+    padding: 0 20px 100px 20px;
+  }
+
+  .experience-row {
+    padding: 24px 15px;
+    padding-bottom: 56px;
+    gap: 14px;
+    column-gap: 14px;
+  }
+
+  .experience-left img {
+    width: 65px;
+    height: 65px;
+  }
+
+  .experience-center h3 {
+    font-size: 16px;
+  }
+
+  .company {
+    font-size: 13px;
+  }
+
+  .skill-pill {
+    font-size: 12px;
+    padding: 6px 11px;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+  .timeline-wrapper {
+    padding: 0 15px 100px 15px;
+  }
+
+  .experience-row {
+    padding: 20px 12px;
+    padding-bottom: 52px;
+    gap: 12px;
+    column-gap: 12px;
+  }
+
+  .experience-left img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .period {
+    font-size: 11px;
+  }
+
+  .experience-center h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .company {
+    font-size: 12px;
+  }
+
+  .skill-pill {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .experience-details {
+    padding: 0 12px 24px 12px;
+  }
+
+  .details-content p {
+    font-size: 13px;
+  }
+
+  .toggle-arrow {
+    bottom: 16px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .experience-row {
+    padding: 18px 10px;
+    padding-bottom: 50px;
+  }
+
+  .experience-left img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .experience-center h3 {
+    font-size: 14px;
+  }
+
+  .company {
+    font-size: 11px;
+  }
+
+  .skill-pill {
+    font-size: 10px;
+    padding: 4px 8px;
   }
 }

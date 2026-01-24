@@ -14,8 +14,9 @@
   max-width: 1180px;
   padding: 0 40px;
   gap: 56px;
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* LEFT HERO CONTENT */
@@ -27,8 +28,9 @@
 /* SUBTITLE */
 .subtitle {
   font-size: 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   color: #999;
   letter-spacing: 0.12em;
   font-weight: 500;
@@ -59,8 +61,9 @@
 
 /* INLINE HIGHLIGHT */
 .highlight {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   color: #5b5fc7;
   font-weight: 500;
 }
@@ -137,6 +140,50 @@
 }
 
 /* MOBILE: VERTICAL LAYOUT - IMAGE FIRST */
+
+@media (max-width: 1416px) {
+  .home-inner {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 20px 100px 20px; /* Extra bottom padding for bottom nav */
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Profile image appears first in mobile */
+  .profile-side {
+    order: -1;
+  }
+
+  .profile-image-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .availability {
+    justify-content: center;
+  }
+
+  .description {
+    font-size: 18px;
+  }
+
+  .name {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 1120px) {
+  .profile-image-wrapper {
+    width: 240px;
+    height: 240px;
+  }
+}
+
 @media (max-width: 768px) {
   .home-inner {
     flex-direction: column;
@@ -180,8 +227,8 @@
   }
 
   .profile-image-wrapper {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
   }
 
   .name {
