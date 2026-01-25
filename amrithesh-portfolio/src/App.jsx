@@ -7,7 +7,7 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import Education from "./pages/Education";
 import Skills from "./pages/Skills";
-import Resume from "./pages/Resume";
+import Blogs from "./pages/Blogs";
 import Achievements from "./pages/Achievements";
 import "./App.css";
 
@@ -19,7 +19,7 @@ function App() {
     home: null,
     experience: null,
     projects: null,
-    resume: null,
+    blogs: null,
     skills: null,
     education: null,
     achievements: null,
@@ -55,7 +55,7 @@ function App() {
 
     const observer = new IntersectionObserver(
       observerCallback,
-      observerOptions
+      observerOptions,
     );
 
     // Observe all sections
@@ -100,11 +100,11 @@ function App() {
         </section>
 
         <section
-          id="resume"
+          id="blogs"
           className="page-section"
-          ref={(el) => (sectionRefs.current.resume = el)}
+          ref={(el) => (sectionRefs.current.blogs = el)}
         >
-          <Resume />
+          <Blogs />
         </section>
 
         <section

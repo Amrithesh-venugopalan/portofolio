@@ -116,30 +116,26 @@ const Projects = () => {
   // Update projects per page based on screen size
   useEffect(() => {
     const updateProjectsPerPage = () => {
-      if (window.innerWidth <= 768) {
-        setProjectsPerPage(2);
-      } else {
-        setProjectsPerPage(4);
+      const newProjectsPerPage = window.innerWidth <= 768 ? 2 : 4;
+      setProjectsPerPage(newProjectsPerPage);
+
+      // Reset page when changing projects per page if current page would be invalid
+      const newTotalPages = Math.ceil(projectsData.length / newProjectsPerPage);
+      if (currentPage > newTotalPages && newTotalPages > 0) {
+        setCurrentPage(1);
       }
     };
 
     updateProjectsPerPage();
     window.addEventListener("resize", updateProjectsPerPage);
     return () => window.removeEventListener("resize", updateProjectsPerPage);
-  }, []);
+  }, [currentPage]);
 
   // Calculate pagination
   const totalPages = Math.ceil(projectsData.length / projectsPerPage);
   const startIndex = (currentPage - 1) * projectsPerPage;
   const endIndex = startIndex + projectsPerPage;
   const currentProjects = projectsData.slice(startIndex, endIndex);
-
-  // Reset to page 1 if current page exceeds total pages after resize
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(1);
-    }
-  }, [totalPages, currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
