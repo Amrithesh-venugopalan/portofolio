@@ -1,0 +1,361 @@
+.contact-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 0 0 0;
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  flex: 1;
+}
+
+/* Left Section */
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 40px;
+}
+
+.contact-title {
+  font-size: 48px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.contact-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 500px;
+}
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #000;
+  text-decoration: none;
+  transition: gap 0.2s ease;
+  margin-top: 8px;
+}
+
+.contact-email:hover {
+  gap: 12px;
+}
+
+.email-arrow {
+  transition: transform 0.2s ease;
+}
+
+.contact-email:hover .email-arrow {
+  transform: translateX(4px);
+}
+
+.contact-phone {
+  font-size: 16px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Right Section */
+.contact-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 40px;
+}
+
+.contact-elsewhere {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #999;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.contact-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.contact-link-card {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact-link-card:hover {
+  border-color: #999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+.link-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link-icon {
+  font-size: 20px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.link-username {
+  font-size: 13px;
+  color: #666;
+  margin-top: auto;
+}
+
+/* Footer */
+.contact-footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 40px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.footer-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copyright {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.footer-updated {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+/* Responsive Design */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .contact-container {
+    padding: 0 32px;
+    gap: 60px;
+  }
+
+  .contact-title {
+    font-size: 42px;
+  }
+
+  .footer-content {
+    padding: 0 32px;
+  }
+}
+
+/* Small tablets */
+@media (max-width: 900px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 0 24px;
+  }
+
+  .contact-left,
+  .contact-right {
+    padding-top: 20px;
+  }
+
+  .contact-title {
+    font-size: 38px;
+  }
+
+  .contact-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-content {
+    padding: 0 24px;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 640px) {
+  .contact-page {
+    padding: 60px 0 0 0;
+  }
+
+  .contact-container {
+    padding: 0 20px;
+    gap: 40px;
+  }
+
+  .contact-left {
+    gap: 20px;
+  }
+
+  .contact-title {
+    font-size: 32px;
+  }
+
+  .contact-description {
+    font-size: 15px;
+  }
+
+  .contact-email {
+    font-size: 14px;
+  }
+
+  .contact-phone {
+    font-size: 14px;
+  }
+
+  .contact-links {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .contact-link-card {
+    padding: 20px;
+  }
+
+  .link-name {
+    font-size: 15px;
+  }
+
+  .link-username {
+    font-size: 12px;
+  }
+
+  .footer-content {
+    padding: 0 20px;
+  }
+
+  .footer-copyright {
+    font-size: 13px;
+  }
+
+  .footer-updated {
+    font-size: 12px;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+  .contact-page {
+    padding: 40px 0 0 0;
+  }
+
+  .contact-container {
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .contact-left {
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .contact-title {
+    font-size: 28px;
+  }
+
+  .contact-description {
+    font-size: 14px;
+  }
+
+  .contact-email {
+    font-size: 13px;
+  }
+
+  .contact-phone {
+    font-size: 13px;
+  }
+
+  .contact-right {
+    padding-top: 16px;
+  }
+
+  .contact-elsewhere {
+    font-size: 11px;
+  }
+
+  .contact-link-card {
+    padding: 18px;
+    gap: 10px;
+  }
+
+  .link-icon {
+    font-size: 18px;
+  }
+
+  .link-name {
+    font-size: 14px;
+  }
+
+  .link-username {
+    font-size: 11px;
+  }
+
+  .footer-content {
+    padding: 0 16px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .contact-container {
+    padding: 0 12px;
+  }
+
+  .contact-title {
+    font-size: 24px;
+  }
+
+  .contact-link-card {
+    padding: 16px;
+  }
+
+  .footer-content {
+    padding: 0 12px;
+  }
+}

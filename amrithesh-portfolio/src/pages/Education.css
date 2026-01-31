@@ -1,0 +1,317 @@
+.education-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 0 100px 0;
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.education-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Education Card */
+.education-card {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.education-card:hover {
+  border-color: #999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+/* Header */
+.education-header {
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.education-command {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.education-period {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Main Content */
+.education-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.education-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.education-degree {
+  font-size: 22px;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+.education-score {
+  padding: 8px 16px;
+  background-color: #f0f0ff;
+  color: #5b5fc7;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.education-institution {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Coursework */
+.education-coursework {
+  margin-top: 8px;
+}
+
+.coursework-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #5b5fc7;
+  margin: 0 0 12px 0;
+}
+
+.coursework-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.coursework-tag {
+  padding: 8px 14px;
+  font-size: 13px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.coursework-tag:hover {
+  border-color: #999;
+  background-color: #f9f9f9;
+}
+
+/* Responsive Design */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .education-container {
+    padding: 0 32px;
+  }
+
+  .education-card {
+    padding: 28px;
+  }
+
+  .education-degree {
+    font-size: 20px;
+  }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+  .education-page {
+    padding: 60px 0 80px 0;
+  }
+
+  .education-container {
+    padding: 0 24px;
+  }
+
+  .education-card {
+    padding: 24px;
+  }
+
+  .education-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .education-command {
+    font-size: 12px;
+  }
+
+  .education-period {
+    font-size: 13px;
+  }
+
+  .education-title-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .education-degree {
+    font-size: 19px;
+  }
+
+  .education-score {
+    align-self: flex-start;
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  .education-institution {
+    font-size: 14px;
+  }
+
+  .coursework-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .coursework-tag {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .education-page {
+    padding: 40px 0 60px 0;
+  }
+
+  .education-container {
+    padding: 0 16px;
+  }
+
+  .education-list {
+    gap: 20px;
+  }
+
+  .education-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .education-header {
+    gap: 6px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+  }
+
+  .education-command {
+    font-size: 11px;
+  }
+
+  .education-period {
+    font-size: 12px;
+  }
+
+  .education-main {
+    gap: 12px;
+  }
+
+  .education-title-row {
+    gap: 10px;
+  }
+
+  .education-degree {
+    font-size: 17px;
+  }
+
+  .education-score {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+
+  .education-institution {
+    font-size: 13px;
+  }
+
+  .education-coursework {
+    margin-top: 4px;
+  }
+
+  .coursework-title {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .coursework-tags {
+    gap: 8px;
+  }
+
+  .coursework-tag {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .education-container {
+    padding: 0 12px;
+  }
+
+  .education-card {
+    padding: 16px;
+  }
+
+  .education-degree {
+    font-size: 16px;
+  }
+
+  .education-institution {
+    font-size: 12px;
+  }
+
+  .coursework-tag {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+}

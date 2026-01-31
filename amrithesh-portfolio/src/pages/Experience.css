@@ -7,6 +7,23 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/* HEADING */
+.experience-heading-container {
+  text-align: center;
+  padding: 60px 0 40px 0;
+}
+
+.experience-heading {
+  font-size: 32px;
+  font-weight: 300;
+  color: #999;
+  margin: 0 auto;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #d9d9d9;
+  display: inline-block;
+  min-width: 200px;
+}
+
 /* WRAPPER */
 .timeline-wrapper {
   position: relative;
@@ -260,22 +277,28 @@
   transform: rotate(180deg) !important;
 }
 
-/* EXPANDED DETAILS */
+/* EXPANDED DETAILS - SMOOTH ANIMATION */
 .experience-details {
   padding: 0 32px 32px 32px;
   background-color: transparent;
-  animation: slideDown 0.3s ease-out;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 500px;
-  }
+/* When expanded */
+.experience-row.expanded + .experience-details {
+  max-height: 800px;
+  opacity: 1;
+  padding: 0 32px 32px 32px;
+}
+
+.details-content {
+  padding-top: 8px;
 }
 
 .details-content h4 {
@@ -320,6 +343,14 @@
 
 /* Large tablets and small desktops */
 @media (max-width: 1416px) {
+  .experience-heading-container {
+    padding: 50px 0 30px 0;
+  }
+
+  .experience-heading {
+    font-size: 30px;
+  }
+
   .timeline-wrapper {
     padding: 0 40px 100px 40px;
   }
@@ -334,6 +365,10 @@
 
 /* Medium tablets */
 @media (max-width: 1120px) {
+  .experience-heading {
+    font-size: 28px;
+  }
+
   .timeline-wrapper {
     padding: 0 20px 100px 20px;
   }
@@ -351,6 +386,15 @@
 
 /* Small tablets - SWITCH TO MOBILE LAYOUT */
 @media (max-width: 900px) {
+  .experience-heading-container {
+    padding: 40px 0 30px 0;
+  }
+
+  .experience-heading {
+    font-size: 26px;
+    min-width: 180px;
+  }
+
   .timeline-wrapper {
     padding: 0 20px 100px 20px;
   }
@@ -441,10 +485,29 @@
     font-size: 13px;
     padding: 6px 12px;
   }
+
+  /* Adjust expanded details padding for mobile */
+  .experience-details {
+    padding: 0 20px 28px 20px;
+  }
+
+  .experience-row.expanded + .experience-details {
+    padding: 0 20px 28px 20px;
+  }
 }
 
 /* Standard mobile phones - Keep same layout, adjust sizes */
 @media (max-width: 768px) {
+  .experience-heading-container {
+    padding: 30px 0 24px 0;
+  }
+
+  .experience-heading {
+    font-size: 24px;
+    min-width: 160px;
+    padding-bottom: 12px;
+  }
+
   .timeline-wrapper {
     padding: 0 20px 100px 20px;
   }
@@ -473,10 +536,27 @@
     font-size: 12px;
     padding: 6px 11px;
   }
+
+  .experience-details {
+    padding: 0 15px 24px 15px;
+  }
+
+  .experience-row.expanded + .experience-details {
+    padding: 0 15px 24px 15px;
+  }
 }
 
 /* Small mobile phones */
 @media (max-width: 480px) {
+  .experience-heading-container {
+    padding: 24px 0 20px 0;
+  }
+
+  .experience-heading {
+    font-size: 22px;
+    min-width: 140px;
+  }
+
   .timeline-wrapper {
     padding: 0 15px 100px 15px;
   }
@@ -512,6 +592,10 @@
   }
 
   .experience-details {
+    padding: 0 12px 24px 12px;
+  }
+
+  .experience-row.expanded + .experience-details {
     padding: 0 12px 24px 12px;
   }
 

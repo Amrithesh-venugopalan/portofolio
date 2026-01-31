@@ -212,32 +212,32 @@ const Experience = () => {
                   </button>
                 </div>
 
-                {/* EXPANDED DETAILS */}
-                {isExpanded && (
-                  <div className="experience-details">
-                    <div className="details-content">
-                      <h4>Contribution</h4>
-                      <p>{exp.details.contribution}</p>
+                {/* EXPANDED DETAILS - ALWAYS RENDERED */}
+                <div
+                  className={`experience-details ${isExpanded ? "open" : ""}`}
+                >
+                  <div className="details-content">
+                    <h4>Contribution</h4>
+                    <p>{exp.details.contribution}</p>
 
-                      {exp.details.links && exp.details.links.length > 0 && (
-                        <div className="details-links">
-                          <h4>Links:</h4>
-                          {exp.details.links.map((link, i) => (
-                            <a
-                              key={i}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="detail-link"
-                            >
-                              {link.label}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    {exp.details.links && exp.details.links.length > 0 && (
+                      <div className="details-links">
+                        <h4>Links:</h4>
+                        {exp.details.links.map((link, i) => (
+                          <a
+                            key={i}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="detail-link"
+                          >
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import "./Blogs.css";
-import profileImage from "../assets/profile.jpg";
+import blog1 from "../assets/blog_1.png";
 
 // Blog data
 const blogsData = [
@@ -10,7 +10,7 @@ const blogsData = [
     title: "Getting Started with Odoo Development",
     excerpt:
       "A comprehensive guide to setting up your Odoo development environment and creating your first custom module from scratch.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Jan 15, 2026",
     readTime: "8 min read",
     category: "Development",
@@ -21,7 +21,7 @@ const blogsData = [
     title: "Odoo 17: New Features and Improvements",
     excerpt:
       "Explore the latest features and enhancements in Odoo 17, including UI improvements, performance optimizations, and new modules.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Jan 10, 2026",
     readTime: "6 min read",
     category: "Updates",
@@ -32,7 +32,7 @@ const blogsData = [
     title: "Customizing Odoo Views: A Complete Guide",
     excerpt:
       "Learn how to customize Odoo views to match your business requirements, from basic modifications to advanced customizations.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Jan 5, 2026",
     readTime: "10 min read",
     category: "Tutorial",
@@ -43,7 +43,7 @@ const blogsData = [
     title: "Odoo Performance Optimization Tips",
     excerpt:
       "Discover best practices and techniques to optimize your Odoo instance for better performance and faster response times.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Dec 28, 2025",
     readTime: "7 min read",
     category: "Performance",
@@ -54,7 +54,7 @@ const blogsData = [
     title: "Building Custom Odoo Reports",
     excerpt:
       "Master the art of creating custom reports in Odoo using QWeb templates and Python controllers for dynamic data presentation.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Dec 20, 2025",
     readTime: "9 min read",
     category: "Tutorial",
@@ -65,7 +65,7 @@ const blogsData = [
     title: "Odoo Integration with Third-Party APIs",
     excerpt:
       "Step-by-step guide to integrating Odoo with external services and APIs for enhanced functionality and automation.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Dec 15, 2025",
     readTime: "11 min read",
     category: "Integration",
@@ -76,7 +76,7 @@ const blogsData = [
     title: "Odoo Security Best Practices",
     excerpt:
       "Essential security practices to protect your Odoo deployment, including access control, data encryption, and user management.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Dec 10, 2025",
     readTime: "8 min read",
     category: "Security",
@@ -87,7 +87,7 @@ const blogsData = [
     title: "Migrating to Odoo: A Complete Roadmap",
     excerpt:
       "Planning to migrate to Odoo? This comprehensive roadmap covers everything from data migration to user training.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Dec 5, 2025",
     readTime: "12 min read",
     category: "Migration",
@@ -98,7 +98,7 @@ const blogsData = [
     title: "Odoo Studio: No-Code Customization",
     excerpt:
       "Learn how to leverage Odoo Studio for no-code customizations, allowing you to modify your system without programming knowledge.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Nov 30, 2025",
     readTime: "6 min read",
     category: "Tutorial",
@@ -109,7 +109,7 @@ const blogsData = [
     title: "Advanced ORM Techniques in Odoo",
     excerpt:
       "Deep dive into Odoo's ORM framework with advanced techniques for complex queries, optimizations, and data manipulation.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Nov 25, 2025",
     readTime: "10 min read",
     category: "Development",
@@ -120,7 +120,7 @@ const blogsData = [
     title: "Odoo Inventory Management Essentials",
     excerpt:
       "Master Odoo's inventory management features including stock operations, warehouse management, and automated replenishment.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Nov 20, 2025",
     readTime: "9 min read",
     category: "Modules",
@@ -131,7 +131,7 @@ const blogsData = [
     title: "Creating Odoo Wizards for Complex Operations",
     excerpt:
       "Learn to build interactive wizards in Odoo for handling complex multi-step operations with user-friendly interfaces.",
-    coverImage: profileImage,
+    coverImage: blog1,
     date: "Nov 15, 2025",
     readTime: "8 min read",
     category: "Development",
