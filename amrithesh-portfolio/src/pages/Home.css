@@ -5,7 +5,7 @@
   width: 100%;
 }
 
-/* INNER CONTENT WIDTH (controls side margins) */
+/* INNER CONTENT WIDTH */
 .home-inner {
   display: flex;
   align-items: center;
@@ -99,16 +99,66 @@
   color: #999;
 }
 
-/* RIGHT PROFILE SIDE */
+/* ─── PROFILE SIDE ─────────────────────────────────────────────────────────
+   The layout anchor. Sized to the profile image at each breakpoint.
+   All child layers are position:absolute inside this.                         */
 .profile-side {
   flex-shrink: 0;
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+/* ─── LAYER 1a — CLIP WRAPPER ──────────────────────────────────────────────
+   width, height, top, left are all set by inline styles from JS.
+   overflow:hidden does the hard clip — anything below clipHeight is gone.     */
+.orbit-clip {
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ─── LAYER 1b — ORBIT CONTAINER ───────────────────────────────────────────
+   width & height set by inline style. Icons sit at top:50% left:50%
+   (the true centre of the orbit circle).                                      */
+.orbit-container {
+  position: relative;
+}
+
+/* ─── ORBITING ICON ────────────────────────────────────────────────────────
+   Anchored at the orbit centre; JS translate moves each one.                  */
+.orbit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+  will-change: transform;
+  pointer-events: none;
 }
 
-/* PROFILE IMAGE */
+/* ─── LAYER 2 — BRUSH STROKE ───────────────────────────────────────────────
+   Paints over the clip edge so the cut is invisible.                          */
+.brush-stroke {
+  position: absolute;
+  z-index: 2;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: auto;
+  pointer-events: none;
+}
+
+/* ─── LAYER 3 — PROFILE IMAGE ──────────────────────────────────────────────
+   Always on top.                                                              */
 .profile-image-wrapper {
+  position: absolute;
+  z-index: 3;
   width: 320px;
   height: 320px;
   border-radius: 50%;
@@ -122,12 +172,11 @@
   object-fit: cover;
 }
 
-/* RESPONSIVE TYPOGRAPHY */
+/* ─── RESPONSIVE TYPOGRAPHY ────────────────────────────────────────────── */
 @media (min-width: 640px) {
   .name {
     font-size: 60px;
   }
-
   .description {
     font-size: 20px;
   }
@@ -139,20 +188,20 @@
   }
 }
 
-/* MOBILE: VERTICAL LAYOUT - IMAGE FIRST */
-
+/* ─── TABLET / MOBILE ──────────────────────────────────────────────────── */
 @media (max-width: 1416px) {
   .home-inner {
     flex-direction: column;
     gap: 40px;
-    padding: 40px 20px 100px 20px; /* Extra bottom padding for bottom nav */
+    padding: 40px 20px 100px 20px;
     align-items: center;
     text-align: center;
   }
 
-  /* Profile image appears first in mobile */
   .profile-side {
     order: -1;
+    width: 260px;
+    height: 260px;
   }
 
   .profile-image-wrapper {
@@ -178,6 +227,11 @@
 }
 
 @media (max-width: 1120px) {
+  .profile-side {
+    width: 240px;
+    height: 240px;
+  }
+
   .profile-image-wrapper {
     width: 240px;
     height: 240px;
@@ -188,14 +242,15 @@
   .home-inner {
     flex-direction: column;
     gap: 40px;
-    padding: 40px 20px 100px 20px; /* Extra bottom padding for bottom nav */
+    padding: 40px 20px 100px 20px;
     align-items: center;
     text-align: center;
   }
 
-  /* Profile image appears first in mobile */
   .profile-side {
     order: -1;
+    width: 200px;
+    height: 200px;
   }
 
   .profile-image-wrapper {
@@ -218,12 +273,25 @@
   .name {
     font-size: 36px;
   }
+
+  .orbit-icon {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 @media (max-width: 480px) {
+  #home {
+    margin-top: 20px;
+  }
   .home-inner {
     padding: 30px 15px 100px 15px;
     gap: 30px;
+  }
+
+  .profile-side {
+    width: 180px;
+    height: 180px;
   }
 
   .profile-image-wrapper {
@@ -246,5 +314,10 @@
   .availability {
     font-size: 13px;
     flex-wrap: wrap;
+  }
+
+  .orbit-icon {
+    width: 26px;
+    height: 26px;
   }
 }
