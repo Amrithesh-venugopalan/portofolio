@@ -36,7 +36,7 @@
   align-content: start;
 }
 
-/* Project Card - Fixed dimensions */
+/* Project Card */
 .project-card {
   background-color: white;
   border: 1px solid #e5e5e5;
@@ -45,11 +45,51 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 400px;
   overflow: hidden;
+
+  /* Enter animation: initial hidden state */
+  opacity: 0;
+  transform: translateY(20px);
+
+  /*
+    opacity + transform handle the enter slide-up.
+    border-color + box-shadow handle the hover.
+    No @keyframes used, so transform is never locked —
+    hover translateY(-2px) works freely.
+  */
+  transition:
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/*
+  Stagger only on opacity and transform (positions 1 & 2).
+  border-color and box-shadow (positions 3 & 4) stay 0s
+  so hover is instant regardless of card index.
+*/
+.project-card:nth-child(1) {
+  transition-delay: 0s, 0s, 0s, 0s;
+}
+.project-card:nth-child(2) {
+  transition-delay: 0.08s, 0.08s, 0s, 0s;
+}
+.project-card:nth-child(3) {
+  transition-delay: 0.16s, 0.16s, 0s, 0s;
+}
+.project-card:nth-child(4) {
+  transition-delay: 0.24s, 0.24s, 0s, 0s;
+}
+
+/* Enter end state — added by JS one frame after mount */
+.project-card.mounted {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover lift */
 .project-card:hover {
   border-color: #999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -174,7 +214,7 @@
   gap: 10px;
 }
 
-/* Pagination - Fixed position */
+/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;

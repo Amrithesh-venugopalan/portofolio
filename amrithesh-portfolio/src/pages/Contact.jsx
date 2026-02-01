@@ -60,8 +60,6 @@ const Contact = () => {
 
         {/* Right Section */}
         <div className="contact-right">
-          <h3 className="contact-elsewhere">ELSEWHERE</h3>
-
           <div className="contact-links">
             {contactLinks.map((link, index) => (
               <a
@@ -89,7 +87,6 @@ const Contact = () => {
           <p className="footer-copyright">
             © 2026 Amrithesh K. All rights reserved.
           </p>
-          <p className="footer-updated">Last Updated on Jan, 31 2026</p>
         </div>
       </footer>
     </div>

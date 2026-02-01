@@ -1,3 +1,14 @@
+.sidebar-wrapper {
+  /* desktop: this wrapper is static and does nothing visually */
+}
+
+/* Each icon + its desktop pill live in this box */
+.sidebar-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .sidebar {
   width: 70px;
   background-color: white;
@@ -30,6 +41,8 @@
   transition: all 0.2s ease;
   color: #666;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .sidebar-btn:hover {
@@ -42,7 +55,67 @@
   color: white;
 }
 
-/* Mobile: Horizontal Bottom Navigation (420px to 768px) */
+/* ─── DESKTOP SECTION PILL ─── */
+.desktop-section-pill {
+  position: absolute;
+  left: calc(
+    100% + 24px
+  ); /* 24 px — clears the sidebar's rounded border + gap */
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background-color: #fff;
+  color: #999;
+  border: 1.5px solid #999;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  pointer-events: none; /* pill itself doesn't block hover on the icon */
+  z-index: 2;
+
+  /* fade + slide in */
+  animation: pillFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes pillFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* ─── MOBILE TOP PILL ─── */
+.mobile-section-pill {
+  position: fixed;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200; /* above everything including hamburger */
+  background-color: #fff;
+  color: #999;
+  border: 1.5px solid #999;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 28px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  /* smooth label swap */
+  transition: opacity 0.25s ease;
+}
+
+/* ─── MOBILE: Horizontal Bottom Nav (420 – 768 px) ─── */
 @media (max-width: 768px) {
   .sidebar {
     width: calc(100% - 20px);
@@ -57,6 +130,11 @@
     border-radius: 35px;
     gap: 5px;
     justify-content: space-around;
+  }
+
+  /* Desktop pill must be hidden on mobile */
+  .desktop-section-pill {
+    display: none;
   }
 
   .sidebar-btn {
@@ -87,9 +165,8 @@
   }
 }
 
-/* Mobile Carousel: Below 420px with arrows */
+/* ─── MOBILE CAROUSEL: Below 420 px ─── */
 @media (max-width: 419px) {
-  /* Wrapper for sidebar + arrows */
   .sidebar-wrapper {
     position: fixed;
     bottom: 10px;
@@ -114,7 +191,7 @@
     padding: 0 15px;
     gap: 8px;
     justify-content: space-evenly;
-    overflow: hidden; /* Hide icons during slide animation */
+    overflow: hidden;
   }
 
   /* Slide animations */
@@ -241,7 +318,6 @@
     height: 16px;
   }
 
-  /* Adjust animation distance for smaller screens */
   @keyframes slideOutLeft {
     0% {
       transform: translateX(0);
@@ -279,6 +355,12 @@
       opacity: 1;
     }
   }
+
+  /* Mobile pill: slightly smaller on tiny screens */
+  .mobile-section-pill {
+    font-size: 13px;
+    padding: 8px 22px;
+  }
 }
 
 /* Desktop - ensure wrapper doesn't interfere */
@@ -287,5 +369,10 @@
     position: static;
     width: auto;
     transform: none;
+  }
+
+  /* Mobile pill must be hidden on desktop */
+  .mobile-section-pill {
+    display: none;
   }
 }

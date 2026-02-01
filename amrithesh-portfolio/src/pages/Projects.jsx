@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import "./Projects.css";
 
@@ -112,6 +112,7 @@ const projectsData = [
 const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [projectsPerPage, setProjectsPerPage] = useState(4);
+  const gridRef = useRef(null);
 
   // Update projects per page based on screen size
   useEffect(() => {
@@ -119,7 +120,6 @@ const Projects = () => {
       const newProjectsPerPage = window.innerWidth <= 768 ? 2 : 4;
       setProjectsPerPage(newProjectsPerPage);
 
-      // Reset page when changing projects per page if current page would be invalid
       const newTotalPages = Math.ceil(projectsData.length / newProjectsPerPage);
       if (currentPage > newTotalPages && newTotalPages > 0) {
         setCurrentPage(1);
@@ -131,6 +131,23 @@ const Projects = () => {
     return () => window.removeEventListener("resize", updateProjectsPerPage);
   }, [currentPage]);
 
+  /*
+    After each page change the grid remounts (via key={currentPage}).
+    Cards render without .mounted → they sit at opacity:0 translateY(20px).
+    One rAF later we add .mounted to every card → the CSS transition
+    animates them in with the staggered delays.
+  */
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (gridRef.current) {
+        gridRef.current
+          .querySelectorAll(".project-card")
+          .forEach((card) => card.classList.add("mounted"));
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [currentPage]);
+
   // Calculate pagination
   const totalPages = Math.ceil(projectsData.length / projectsPerPage);
   const startIndex = (currentPage - 1) * projectsPerPage;
@@ -139,7 +156,6 @@ const Projects = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Smooth scroll to top
     const projectsPage = document.querySelector(".projects-page");
     if (projectsPage) {
       projectsPage.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -149,8 +165,8 @@ const Projects = () => {
   return (
     <div className="projects-page">
       <div className="projects-container">
-        {/* Projects Grid */}
-        <div className="projects-grid">
+        {/* key={currentPage} destroys & recreates the grid on every page change */}
+        <div className="projects-grid" key={currentPage} ref={gridRef}>
           {currentProjects.map((project) => (
             <div key={project.id} className="project-card">
               {/* Header */}

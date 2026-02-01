@@ -8,13 +8,23 @@ const Sidebar = ({ activeSection, onNavigate }) => {
   const [isMobileCarousel, setIsMobileCarousel] = useState(false);
   const [slideDirection, setSlideDirection] = useState("");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [hideHighlight, setHideHighlight] = useState(false); // NEW: Hide highlight during transitions
+  const [hideHighlight, setHideHighlight] = useState(false);
   const isProgrammaticScroll = useRef(false);
   const programmaticScrollTimeout = useRef(null);
 
+  // ─── Desktop pill state ───
+  const [showDesktopPill, setShowDesktopPill] = useState(false);
+  const desktopPillTimeout = useRef(null);
+
+  // ─── Mobile pill state ───
+  const [isMobile, setIsMobile] = useState(false);
+
+  // ── Responsive checks ──
   useEffect(() => {
     const checkWidth = () => {
-      setIsMobileCarousel(window.innerWidth < 420);
+      const w = window.innerWidth;
+      setIsMobileCarousel(w < 420);
+      setIsMobile(w <= 768);
     };
 
     checkWidth();
@@ -22,6 +32,41 @@ const Sidebar = ({ activeSection, onNavigate }) => {
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
+  // ── Desktop pill: show on intersection, auto-hide after 1.5 s ──
+  const prevActiveSection = useRef(activeSection);
+
+  useEffect(() => {
+    if (isMobile) return; // desktop-only
+
+    // Only trigger when activeSection actually changed
+    if (prevActiveSection.current !== activeSection) {
+      prevActiveSection.current = activeSection;
+
+      // Clear any running timer
+      if (desktopPillTimeout.current) {
+        clearTimeout(desktopPillTimeout.current);
+      }
+
+      // Only show pill if not on home section
+      if (activeSection !== "home") {
+        setShowDesktopPill(true);
+
+        desktopPillTimeout.current = setTimeout(() => {
+          setShowDesktopPill(false);
+        }, 1500);
+      } else {
+        setShowDesktopPill(false);
+      }
+    }
+
+    return () => {
+      if (desktopPillTimeout.current) {
+        clearTimeout(desktopPillTimeout.current);
+      }
+    };
+  }, [activeSection, isMobile]);
+
+  // ── Carousel sync (unchanged logic) ──
   useEffect(() => {
     if (!isMobileCarousel || isAnimating || isProgrammaticScroll.current) {
       return;
@@ -58,7 +103,7 @@ const Sidebar = ({ activeSection, onNavigate }) => {
     const firstIconOfNewPage = navigationItems[newPage * 4];
 
     isProgrammaticScroll.current = true;
-    setHideHighlight(true); // Hide highlight before transition
+    setHideHighlight(true);
 
     if (programmaticScrollTimeout.current) {
       clearTimeout(programmaticScrollTimeout.current);
@@ -74,7 +119,6 @@ const Sidebar = ({ activeSection, onNavigate }) => {
 
       onNavigate(firstIconOfNewPage.id);
 
-      // Show highlight after scroll settles
       setTimeout(() => {
         setHideHighlight(false);
       }, 100);
@@ -92,7 +136,7 @@ const Sidebar = ({ activeSection, onNavigate }) => {
     const firstIconOfNewPage = navigationItems[newPage * 4];
 
     isProgrammaticScroll.current = true;
-    setHideHighlight(true); // Hide highlight before transition
+    setHideHighlight(true);
 
     if (programmaticScrollTimeout.current) {
       clearTimeout(programmaticScrollTimeout.current);
@@ -108,7 +152,6 @@ const Sidebar = ({ activeSection, onNavigate }) => {
 
       onNavigate(firstIconOfNewPage.id);
 
-      // Show highlight after scroll settles
       setTimeout(() => {
         setHideHighlight(false);
       }, 100);
@@ -127,67 +170,114 @@ const Sidebar = ({ activeSection, onNavigate }) => {
     };
   }, []);
 
+  // ── Derived data ──
   const iconsPerPage = 4;
   const startIndex = currentPage * iconsPerPage;
   const visibleItems = isMobileCarousel
     ? navigationItems.slice(startIndex, startIndex + iconsPerPage)
     : navigationItems;
 
+  // Current active item's label (used by both pills)
+  const activeItem = navigationItems.find((item) => item.id === activeSection);
+  const activeLabel = activeItem ? activeItem.label : "";
+
+  // For desktop pill: find the index of the active item *within visibleItems*
+  // so we can position it next to the correct icon
+  const activeVisibleIndex = visibleItems.findIndex(
+    (item) => item.id === activeSection,
+  );
+
   return (
-    <div
-      className={`sidebar-wrapper ${isMobileCarousel ? "carousel-mode" : ""}`}
-    >
-      {isMobileCarousel && (
-        <button
-          className="carousel-arrow left-arrow"
-          onClick={handlePrevious}
-          aria-label="Previous icons"
-          disabled={isAnimating}
-        >
-          <ChevronLeft size={20} />
-        </button>
+    <>
+      {/* ─── MOBILE TOP PILL ─── */}
+      {isMobile && activeLabel && activeSection !== "home" && (
+        <div className="mobile-section-pill">{activeLabel}</div>
       )}
 
+      {/* ─── SIDEBAR ─── */}
       <div
-        className={`sidebar ${slideDirection ? `slide-${slideDirection}` : ""}`}
+        className={`sidebar-wrapper ${isMobileCarousel ? "carousel-mode" : ""}`}
       >
-        {visibleItems.map(({ id, Icon, label }) => (
+        {isMobileCarousel && (
           <button
-            key={id}
-            className={`sidebar-btn ${
-              !hideHighlight && activeSection === id ? "active" : ""
-            }`}
-            onClick={() => {
-              isProgrammaticScroll.current = true;
-
-              if (programmaticScrollTimeout.current) {
-                clearTimeout(programmaticScrollTimeout.current);
-              }
-
-              onNavigate(id);
-
-              programmaticScrollTimeout.current = setTimeout(() => {
-                isProgrammaticScroll.current = false;
-              }, 1000);
-            }}
-            title={label}
+            className="carousel-arrow left-arrow"
+            onClick={handlePrevious}
+            aria-label="Previous icons"
+            disabled={isAnimating}
           >
-            <Icon size={20} />
+            <ChevronLeft size={20} />
           </button>
-        ))}
-      </div>
+        )}
 
-      {isMobileCarousel && (
-        <button
-          className="carousel-arrow right-arrow"
-          onClick={handleNext}
-          aria-label="Next icons"
-          disabled={isAnimating}
+        <div
+          className={`sidebar ${slideDirection ? `slide-${slideDirection}` : ""}`}
         >
-          <ChevronRight size={20} />
-        </button>
-      )}
-    </div>
+          {visibleItems.map(({ id, Icon, label }, index) => {
+            const isActive = !hideHighlight && activeSection === id;
+
+            return (
+              <div
+                key={id}
+                className="sidebar-icon-wrapper"
+                onMouseEnter={() => {
+                  // Desktop hover: show pill if this is the active icon and not home
+                  if (
+                    !isMobile &&
+                    isActive &&
+                    !showDesktopPill &&
+                    id !== "home"
+                  ) {
+                    setShowDesktopPill(true);
+                  }
+                }}
+                onMouseLeave={() => {
+                  // Desktop hover-out: hide pill only if the auto-show timer already expired
+                  if (!isMobile && isActive && !desktopPillTimeout.current) {
+                    setShowDesktopPill(false);
+                  }
+                }}
+              >
+                <button
+                  className={`sidebar-btn ${isActive ? "active" : ""}`}
+                  onClick={() => {
+                    isProgrammaticScroll.current = true;
+
+                    if (programmaticScrollTimeout.current) {
+                      clearTimeout(programmaticScrollTimeout.current);
+                    }
+
+                    onNavigate(id);
+
+                    programmaticScrollTimeout.current = setTimeout(() => {
+                      isProgrammaticScroll.current = false;
+                    }, 1000);
+                  }}
+                  title={label}
+                >
+                  <Icon size={20} />
+                </button>
+
+                {/* Desktop pill — rendered next to each icon but only visible on the active one (except home) */}
+                {!isMobile && isActive && showDesktopPill && id !== "home" && (
+                  <span className="desktop-section-pill">{label}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {isMobileCarousel && (
+          <button
+            className="carousel-arrow right-arrow"
+            onClick={handleNext}
+            aria-label="Next icons"
+            disabled={isAnimating}
+          >
+            <ChevronRight size={20} />
+          </button>
+        )}
+      </div>
+    </>
   );
 };
 

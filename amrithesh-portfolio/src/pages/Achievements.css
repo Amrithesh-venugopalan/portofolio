@@ -23,75 +23,199 @@
   margin-bottom: 48px;
 }
 
-/* Achievement Card */
+/* Achievement Card — horizontal layout */
 .achievement-card {
   background-color: white;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  padding: 24px 28px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: stretch;
+
+  /* Enter animation: initial hidden state */
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.6s ease-out forwards;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out,
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Stagger only on opacity and transform (positions 1 & 2) */
+.achievement-card:nth-child(1) {
+  transition-delay: 0s, 0s, 0s, 0s;
+}
+.achievement-card:nth-child(2) {
+  transition-delay: 0.1s, 0.1s, 0s, 0s;
+}
+.achievement-card:nth-child(3) {
+  transition-delay: 0.2s, 0.2s, 0s, 0s;
+}
+.achievement-card:nth-child(4) {
+  transition-delay: 0.3s, 0.3s, 0s, 0s;
 }
 
+/* Enter end state */
+.achievement-card.mounted {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover lift */
 .achievement-card:hover {
   border-color: #999;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transform: translateY(-4px);
 }
 
-/* Provider */
-.achievement-provider {
+/* Left: Certificate image */
+.achievement-image {
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  border-radius: 10px;
+  background-color: #f0f0ff;
+  border: 1px solid #e5e5e5;
   display: flex;
   align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.provider-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
+.achievement-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Title */
+/* Placeholder icon when no image */
+.achievement-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievement-image-placeholder svg {
+  width: 36px;
+  height: 36px;
+  color: #5b5fc7;
+  opacity: 0.6;
+}
+
+/* Right: Content */
+.achievement-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px; /* increased from 10px for more breathing room */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Header row: info (title + provider) on the left, credential button on the right */
+.achievement-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Top row: title + provider */
+.achievement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
 .achievement-title {
-  font-size: 19px;
+  font-size: 16px;
   font-weight: 600;
   color: #000;
   margin: 0;
   line-height: 1.4;
 }
 
-/* Credential Link */
-.credential-link {
+.achievement-provider {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.provider-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+}
+
+/* ─── Show Credentials Button ─── */
+.credential-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 16px;
-  border: 1px solid #e5e5e5;
-  border-radius: 20px;
-  font-size: 13px;
-  color: #333;
+  padding: 7px 14px;
+  border: 1.5px solid #999;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #999;
   text-decoration: none;
-  transition: all 0.2s ease;
-  align-self: flex-start;
-  background-color: white;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.credential-link:hover {
+.credential-btn:hover {
+  background-color: #999;
+  color: #fff;
   border-color: #999;
-  background-color: #f9f9f9;
-  color: #000;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.credential-btn svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.credential-btn-text {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Bottom row: skills as pills */
+.achievement-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-pill {
+  padding: 5px 12px;
+  font-size: 12px;
+  background-color: #f5f5f5;
+  color: #555;
+  border: 1px solid #e8e8e8;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.skill-pill:hover {
+  border-color: #bbb;
+  background-color: #eee;
 }
 
 /* Pagination */
@@ -146,12 +270,8 @@
     padding: 0 32px;
   }
 
-  .achievement-card {
-    padding: 22px 26px;
-  }
-
   .achievement-title {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -171,21 +291,51 @@
   }
 
   .achievement-card {
-    padding: 20px 24px;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .achievement-image {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+  }
+
+  .achievement-image-placeholder svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .achievement-content {
+    gap: 12px;
+  }
+
+  .achievement-header {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
   }
 
-  .provider-name {
-    font-size: 13px;
-  }
-
   .achievement-title {
-    font-size: 17px;
+    font-size: 14px;
   }
 
-  .credential-link {
+  .provider-name {
     font-size: 12px;
-    padding: 6px 14px;
+  }
+
+  .credential-btn {
+    padding: 6px 12px;
+    align-self: flex-start;
+  }
+
+  .credential-btn-text {
+    font-size: 12px;
+  }
+
+  .skill-pill {
+    font-size: 11px;
+    padding: 4px 10px;
   }
 
   .pagination {
@@ -217,27 +367,50 @@
   }
 
   .achievement-card {
-    padding: 18px 20px;
+    padding: 14px;
+    gap: 14px;
     border-radius: 10px;
-    gap: 8px;
   }
 
-  .provider-name {
-    font-size: 12px;
+  .achievement-image {
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    border-radius: 8px;
+  }
+
+  .achievement-image-placeholder svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .achievement-content {
+    gap: 10px;
   }
 
   .achievement-title {
-    font-size: 15px;
+    font-size: 13px;
   }
 
-  .credential-link {
+  .provider-name {
     font-size: 11px;
-    padding: 6px 12px;
   }
 
-  .credential-link svg {
-    width: 12px;
-    height: 12px;
+  .credential-btn {
+    padding: 5px 10px;
+  }
+
+  .credential-btn-text {
+    font-size: 11px;
+  }
+
+  .achievement-skills {
+    gap: 6px;
+  }
+
+  .skill-pill {
+    font-size: 10px;
+    padding: 4px 8px;
   }
 
   .pagination {
@@ -258,15 +431,30 @@
   }
 
   .achievement-card {
-    padding: 16px 18px;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .achievement-image {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
   }
 
   .achievement-title {
-    font-size: 14px;
+    font-size: 12px;
   }
 
-  .credential-link {
+  .credential-btn {
+    padding: 5px 8px;
+  }
+
+  .credential-btn-text {
     font-size: 10px;
-    padding: 5px 10px;
+  }
+
+  .skill-pill {
+    font-size: 9px;
+    padding: 3px 7px;
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./Education.css";
 
 const educationData = [
@@ -41,18 +41,30 @@ const educationData = [
 ];
 
 const Education = () => {
+  const listRef = useRef(null);
+
+  /*
+    Cards render without .mounted → they sit at opacity:0 translateY(20px).
+    One rAF later we add .mounted to every card → the CSS transition
+    animates them in with the staggered delays defined via nth-child.
+  */
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (listRef.current) {
+        listRef.current
+          .querySelectorAll(".education-card")
+          .forEach((card) => card.classList.add("mounted"));
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="education-page">
       <div className="education-container">
-        <div className="education-list">
+        <div className="education-list" ref={listRef}>
           {educationData.map((edu, index) => (
-            <div
-              key={index}
-              className="education-card"
-              style={{
-                animationDelay: `${index * 0.15}s`,
-              }}
-            >
+            <div key={index} className="education-card">
               {/* Header */}
               <div className="education-header">
                 <div className="education-period">{edu.period}</div>

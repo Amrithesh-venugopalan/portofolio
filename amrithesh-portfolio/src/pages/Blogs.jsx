@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import "./Blogs.css";
 import blog1 from "../assets/blog_1.png";
@@ -142,13 +142,13 @@ const blogsData = [
 const Blogs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage, setBlogsPerPage] = useState(4);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const updateBlogsPerPage = () => {
       const newBlogsPerPage = window.innerWidth <= 768 ? 2 : 4;
       setBlogsPerPage(newBlogsPerPage);
 
-      // Reset page when changing blogs per page if current page would be invalid
       const newTotalPages = Math.ceil(blogsData.length / newBlogsPerPage);
       if (currentPage > newTotalPages && newTotalPages > 0) {
         setCurrentPage(1);
@@ -158,6 +158,24 @@ const Blogs = () => {
     updateBlogsPerPage();
     window.addEventListener("resize", updateBlogsPerPage);
     return () => window.removeEventListener("resize", updateBlogsPerPage);
+  }, [currentPage]);
+
+  /*
+    After each page change the grid remounts (via key={currentPage}).
+    Cards render without .mounted → they sit at opacity:0 translateY(20px).
+    One rAF later we add .mounted to every card → the CSS transition
+    animates them in with the staggered delays.
+    Using rAF ensures the browser has painted the initial hidden state first.
+  */
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (gridRef.current) {
+        gridRef.current
+          .querySelectorAll(".blog-card")
+          .forEach((card) => card.classList.add("mounted"));
+      }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [currentPage]);
 
   const totalPages = Math.ceil(blogsData.length / blogsPerPage);
@@ -176,7 +194,8 @@ const Blogs = () => {
   return (
     <div className="blogs-page">
       <div className="blogs-container">
-        <div className="blogs-grid">
+        {/* key={currentPage} destroys & recreates the grid on every page change */}
+        <div className="blogs-grid" key={currentPage} ref={gridRef}>
           {currentBlogs.map((blog) => (
             <div key={blog.id} className="blog-card">
               <div className="blog-image-container">

@@ -72,34 +72,34 @@ const RightSidebar = () => {
       {/* Mobile: Hamburger Menu */}
       <div className="mobile-menu-container">
         <button
-          className="hamburger-btn"
+          className={`hamburger-btn ${isMenuOpen ? "open" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <div className="icon-wrapper">
+            <Menu size={24} className="menu-icon" />
+            <X size={24} className="close-icon" />
+          </div>
         </button>
 
-        {/* Dropdown Menu */}
+        {/* Overlay */}
         {isMenuOpen && (
-          <>
-            <div
-              className="menu-overlay"
-              onClick={() => setIsMenuOpen(false)}
-            />
-            <div className="dropdown-menu">
-              {menuItems.map((item, index) => (
-                <button
-                  key={index}
-                  className="dropdown-item"
-                  onClick={item.onClick}
-                >
-                  <item.icon size={20} />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </div>
-          </>
+          <div className="menu-overlay" onClick={() => setIsMenuOpen(false)} />
         )}
+
+        {/* Slide-in Menu */}
+        <div className={`slide-menu ${isMenuOpen ? "open" : ""}`}>
+          {menuItems.map((item, index) => (
+            <button
+              key={index}
+              className="slide-menu-item"
+              onClick={item.onClick}
+            >
+              <item.icon size={20} />
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );
