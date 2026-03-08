@@ -59,6 +59,37 @@
   margin-bottom: 40px;
 }
 
+/* ─── TYPEWRITER ──────────────────────────────────────────────────────────── */
+.typewriter-word {
+  color: #999;
+  font-weight: 500;
+  display: inline;
+  /* Reserve enough width so the line doesn't reflow as letters change.
+     "problem solver" is the longest word — fix the min-width to that. */
+  white-space: nowrap;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #999;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 /* INLINE HIGHLIGHT */
 .highlight {
   font-family:
@@ -99,7 +130,7 @@
   color: #999;
 }
 
-/* ─── PROFILE SIDE ─────────────────────────────────────────────────────────
+/* ─── PROFILE SIDE ──────────────────────────────────────────────────────────
    The layout anchor. Sized to the profile image at each breakpoint.
    All child layers are position:absolute inside this.                         */
 .profile-side {
@@ -109,23 +140,22 @@
   height: 320px;
 }
 
-/* ─── LAYER 1a — CLIP WRAPPER ──────────────────────────────────────────────
+/* ─── LAYER 1a — CLIP WRAPPER ───────────────────────────────────────────────
    width, height, top, left are all set by inline styles from JS.
-   overflow:hidden does the hard clip — anything below clipHeight is gone.     */
+   overflow:hidden does the hard clip.                                         */
 .orbit-clip {
   position: absolute;
   z-index: 1;
   overflow: hidden;
 }
 
-/* ─── LAYER 1b — ORBIT CONTAINER ───────────────────────────────────────────
-   width & height set by inline style. Icons sit at top:50% left:50%
-   (the true centre of the orbit circle).                                      */
+/* ─── LAYER 1b — ORBIT CONTAINER ────────────────────────────────────────────
+   width & height set by inline style.                                         */
 .orbit-container {
   position: relative;
 }
 
-/* ─── ORBITING ICON ────────────────────────────────────────────────────────
+/* ─── ORBITING ICON ─────────────────────────────────────────────────────────
    Anchored at the orbit centre; JS translate moves each one.                  */
 .orbit-icon {
   position: absolute;
@@ -141,7 +171,7 @@
   pointer-events: none;
 }
 
-/* ─── LAYER 2 — BRUSH STROKE ───────────────────────────────────────────────
+/* ─── LAYER 2 — BRUSH STROKE ────────────────────────────────────────────────
    Paints over the clip edge so the cut is invisible.                          */
 .brush-stroke {
   position: absolute;
@@ -154,7 +184,7 @@
   pointer-events: none;
 }
 
-/* ─── LAYER 3 — PROFILE IMAGE ──────────────────────────────────────────────
+/* ─── LAYER 3 — PROFILE IMAGE ───────────────────────────────────────────────
    Always on top.                                                              */
 .profile-image-wrapper {
   position: absolute;
@@ -172,7 +202,7 @@
   object-fit: cover;
 }
 
-/* ─── RESPONSIVE TYPOGRAPHY ────────────────────────────────────────────── */
+/* ─── RESPONSIVE TYPOGRAPHY ─────────────────────────────────────────────── */
 @media (min-width: 640px) {
   .name {
     font-size: 60px;
@@ -188,7 +218,7 @@
   }
 }
 
-/* ─── TABLET / MOBILE ──────────────────────────────────────────────────── */
+/* ─── TABLET / MOBILE ───────────────────────────────────────────────────── */
 @media (max-width: 1416px) {
   .home-inner {
     flex-direction: column;
@@ -284,6 +314,7 @@
   #home {
     margin-top: 20px;
   }
+
   .home-inner {
     padding: 30px 15px 100px 15px;
     gap: 30px;

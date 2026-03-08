@@ -1,37 +1,44 @@
 import React from "react";
-import { ArrowRight, FileText } from "lucide-react";
-import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { ArrowRight, FileDown, PenLine } from "lucide-react";
+import { SiGithub, SiLinkedin, SiLeetcode, SiMedium } from "react-icons/si";
+import resume from "../assets/resume.pdf";
 import "./Contact.css";
 
-const Contact = () => {
-  const contactLinks = [
-    {
-      name: "GitHub",
-      username: "amritheshk",
-      url: "https://github.com/amritheshk",
-      icon: <FaGithub />,
-    },
-    {
-      name: "LinkedIn",
-      username: "amrithesh-k",
-      url: "https://www.linkedin.com/in/amrithesh-k",
-      icon: <FaLinkedin />,
-    },
-    {
-      name: "Instagram",
-      username: "@amrithesh.k",
-      url: "https://www.instagram.com/amrithesh.k",
-      icon: <FaInstagram />,
-    },
-    {
-      name: "Resume",
-      username: "Download PDF",
-      url: "/resume.pdf",
-      icon: <FileText size={20} />,
-      download: true,
-    },
-  ];
+const contactLinks = [
+  {
+    name: "GitHub",
+    username: "@Amrithesh-venugopalan",
+    url: "https://github.com/Amrithesh-venugopalan",
+    icon: <SiGithub size={20} />,
+  },
+  {
+    name: "LinkedIn",
+    username: "amrithesh-k-507786264",
+    url: "https://www.linkedin.com/in/amrithesh-k-507786264/",
+    icon: <SiLinkedin size={20} />,
+  },
+  {
+    name: "LeetCode",
+    username: "@K_Amrithesh",
+    url: "https://leetcode.com/u/K_Amrithesh/",
+    icon: <SiLeetcode size={20} />,
+  },
+  {
+    name: "Medium",
+    username: "@amritheshvenugopalan",
+    url: "https://medium.com/@amritheshvenugopalan",
+    icon: <PenLine size={20} />,
+  },
+  // {
+  //   name: "Resume",
+  //   username: "Download PDF",
+  //   url: resume,
+  //   icon: <FileDown size={20} />,
+  //   download: "Amrithesh_Resume.pdf",
+  // },
+];
 
+const Contact = () => {
   return (
     <div className="contact-page">
       <div className="contact-container">
@@ -55,7 +62,7 @@ const Contact = () => {
           </a>
 
           {/* Phone */}
-          <div className="contact-phone">+91 9876543210</div>
+          <div className="contact-phone">+91 9633323325</div>
         </div>
 
         {/* Right Section */}
@@ -65,10 +72,10 @@ const Contact = () => {
               <a
                 key={index}
                 href={link.url}
-                target="_blank"
+                target={link.download ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 className="contact-link-card"
-                download={link.download}
+                download={link.download || undefined}
               >
                 <div className="link-header">
                   <span className="link-icon">{link.icon}</span>
@@ -82,7 +89,7 @@ const Contact = () => {
       </div>
 
       {/* Footer */}
-      <footer className="contact-footer">
+      <footer className="contact-footer" style={{ marginTop: "48px" }}>
         <div className="footer-content">
           <p className="footer-copyright">
             © 2026 Amrithesh K. All rights reserved.

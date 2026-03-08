@@ -14,20 +14,23 @@
   padding: 0 40px;
 }
 
-/* Skills Grid */
+/* ── Regular grid ─────────────────────────────────────────────────────────── */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
-/* Category Card */
+/* ── Category Card ────────────────────────────────────────────────────────── */
 .skill-category {
   background-color: white;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   padding: 32px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .skill-category:hover {
@@ -40,16 +43,16 @@
   font-size: 20px;
   font-weight: 600;
   color: #000;
-  margin-bottom: 24px;
+  margin: 0 0 24px 0;
   padding-bottom: 16px;
   border-bottom: 1px solid #e5e5e5;
 }
 
-/* Skills List */
+/* ── Skills List ──────────────────────────────────────────────────────────── */
 .skills-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .skill-item {
@@ -64,6 +67,11 @@
   cursor: default;
 }
 
+/* Odoo skill items have no icon — remove the left gap */
+.skill-item.no-icon {
+  padding-left: 16px;
+}
+
 .skill-item:hover {
   background-color: #fafafa;
   border-color: #d4d4d4;
@@ -71,23 +79,22 @@
 }
 
 .skill-icon {
-  font-size: 16px;
-  width: 20px;
-  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
-  color: #666;
 }
 
 .skill-name {
   font-size: 14px;
   color: #555;
   font-weight: 500;
+  line-height: 1;
 }
 
-/* Responsive Design */
+/* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .skills-container {
     padding: 0 24px;
@@ -105,6 +112,7 @@
 
   .skills-container {
     padding: 0 20px;
+    gap: 20px;
   }
 
   .skills-grid {
@@ -122,16 +130,16 @@
     padding-bottom: 12px;
   }
 
-  .skills-list {
+  .odoo-category {
+    padding: 24px;
+  }
+
+  .odoo-skills-list {
     gap: 10px;
   }
 
-  .skill-item {
-    padding: 10px;
-  }
-
-  .skill-name {
-    font-size: 13px;
+  .odoo-skill-item {
+    padding: 9px 14px;
   }
 }
 
@@ -142,6 +150,7 @@
 
   .skills-container {
     padding: 0 16px;
+    gap: 16px;
   }
 
   .skills-grid {
@@ -157,22 +166,30 @@
     margin-bottom: 16px;
   }
 
-  .skills-list {
-    gap: 8px;
-  }
-
   .skill-item {
-    padding: 8px 10px;
+    padding: 9px 10px;
     gap: 10px;
   }
 
   .skill-icon {
-    font-size: 14px;
     width: 18px;
     height: 18px;
   }
 
   .skill-name {
+    font-size: 13px;
+  }
+
+  .odoo-category {
+    padding: 20px;
+  }
+
+  .odoo-skill-item {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .odoo-skill-name {
     font-size: 13px;
   }
 }

@@ -1,75 +1,96 @@
 import React, { useState } from "react";
+import { FileDown, Menu, X } from "lucide-react";
 import {
-  FileDown,
-  GitBranch,
-  Code,
-  BarChart,
-  Pencil,
-  Instagram,
-  Mail,
-  Menu,
-  X,
-} from "lucide-react";
+  SiGithub,
+  SiHashnode,
+  SiLeetcode,
+  SiLinkedin,
+  SiGmail,
+} from "react-icons/si";
+import { FaMedium } from "react-icons/fa";
+import resume from "../assets/resume.pdf";
 import "./RightSidebar.css";
+
+const menuItems = [
+  // {
+  //   icon: FileDown,
+  //   label: "Download Resume",
+  //   type: "resume",
+  // },
+  {
+    icon: SiGithub,
+    label: "GitHub",
+    url: "https://github.com/Amrithesh-venugopalan",
+  },
+  {
+    icon: FaMedium,
+    label: "Medium",
+    url: "https://medium.com/@amritheshvenugopalan",
+  },
+  {
+    icon: SiLeetcode,
+    label: "LeetCode",
+    url: "https://leetcode.com/u/K_Amrithesh/",
+  },
+  {
+    icon: SiLinkedin,
+    label: "LinkedIn",
+    url: "https://www.linkedin.com/in/amrithesh-k-507786264/",
+  },
+  {
+    icon: SiGmail,
+    label: "Email",
+    type: "email",
+    email: "amritheshvenugopalan@gmail.com",
+  },
+];
 
 const RightSidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const handleCLIClick = () => {
-    console.log("CLI clicked");
+  const handleClick = (item) => {
+    if (item.type === "resume") {
+      const link = document.createElement("a");
+      link.href = resume;
+      link.download = "Amrithesh_Resume.pdf";
+      link.click();
+    } else if (item.type === "email") {
+      window.location.href = `mailto:${item.email}`;
+    } else if (item.url) {
+      window.open(item.url, "_blank");
+    }
     setIsMenuOpen(false);
   };
-
-  const handleDownloadResume = () => {
-    console.log("Download resume");
-    setIsMenuOpen(false);
-  };
-
-  const handleGitHub = () => {
-    window.open("https://github.com/yourusername", "_blank");
-    setIsMenuOpen(false);
-  };
-
-  const handleInstagram = () => {
-    window.open("https://instagram.com/yourusername", "_blank");
-    setIsMenuOpen(false);
-  };
-
-  const handleEmail = () => {
-    window.location.href = "mailto:your.email@example.com";
-    setIsMenuOpen(false);
-  };
-
-  const menuItems = [
-    { icon: FileDown, label: "Download Resume", onClick: handleDownloadResume },
-    { icon: GitBranch, label: "GitHub", onClick: handleGitHub },
-    { icon: Code, label: "Code", onClick: () => setIsMenuOpen(false) },
-    { icon: BarChart, label: "Analytics", onClick: () => setIsMenuOpen(false) },
-    { icon: Pencil, label: "Blog", onClick: () => setIsMenuOpen(false) },
-    { icon: Instagram, label: "Instagram", onClick: handleInstagram },
-    { icon: Mail, label: "Email", onClick: handleEmail },
-  ];
 
   return (
     <>
-      {/* Desktop: Vertical Sidebar */}
+      {/* ── Desktop: Vertical Sidebar ── */}
       <div className="right-sidebar desktop-only">
-        <button className="right-sidebar-btn" onClick={handleCLIClick}>
-          CLI
-        </button>
         {menuItems.map((item, index) => (
-          <button
+          <div
             key={index}
-            className="sidebar-icon-btn"
-            onClick={item.onClick}
-            title={item.label}
+            className="right-icon-wrapper"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
           >
-            <item.icon size={20} />
-          </button>
+            <button
+              className="sidebar-icon-btn"
+              onClick={() => handleClick(item)}
+              title={item.label}
+            >
+              <item.icon size={20} />
+            </button>
+
+            {/* Hover pill — mirrors Sidebar.css desktop pill, floats LEFT */}
+            {hoveredIndex === index && (
+              <span className="right-section-pill">{item.label}</span>
+            )}
+          </div>
         ))}
       </div>
 
-      {/* Mobile: Hamburger Menu */}
+      {/* ── Mobile: Hamburger Menu ── */}
       <div className="mobile-menu-container">
         <button
           className={`hamburger-btn ${isMenuOpen ? "open" : ""}`}
@@ -82,18 +103,16 @@ const RightSidebar = () => {
           </div>
         </button>
 
-        {/* Overlay */}
         {isMenuOpen && (
           <div className="menu-overlay" onClick={() => setIsMenuOpen(false)} />
         )}
 
-        {/* Slide-in Menu */}
         <div className={`slide-menu ${isMenuOpen ? "open" : ""}`}>
           {menuItems.map((item, index) => (
             <button
               key={index}
               className="slide-menu-item"
-              onClick={item.onClick}
+              onClick={() => handleClick(item)}
             >
               <item.icon size={20} />
               <span>{item.label}</span>

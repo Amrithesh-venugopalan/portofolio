@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer } from "react";
+import React, { useEffect, useRef, useReducer, useState } from "react";
 import { FaPython, FaReact, FaNodeJs, FaGithub, FaHtml5 } from "react-icons/fa";
 import { BiLogoTailwindCss, BiLogoPostgresql } from "react-icons/bi";
 import { IoLogoJavascript } from "react-icons/io5";
@@ -19,22 +19,16 @@ const ICONS = [
 ];
 
 const ICON_COUNT = ICONS.length;
-const ICON_SIZE = 40; // matches .orbit-icon width/height in CSS
+const ICON_SIZE = 40;
 
-// ─── Breakpoint config ──────────────────────────────────────────────────────
-// Each entry: { maxWidth, profileSize, radius }
-// profileSize = the square that the profile image fills
-// radius      = orbit radius in px
 const BREAKPOINTS = [
   { maxWidth: 480, profileSize: 180, radius: 140 },
   { maxWidth: 768, profileSize: 200, radius: 170 },
   { maxWidth: 1120, profileSize: 240, radius: 170 },
   { maxWidth: 1416, profileSize: 260, radius: 170 },
-  { maxWidth: Infinity, profileSize: 320, radius: 213 }, // desktop
+  { maxWidth: Infinity, profileSize: 320, radius: 213 },
 ];
 
-// The brush line sits at 62% down the profile image box.
-// Icons should disappear right at that line.
 const BRUSH_LINE_RATIO = 0.62;
 
 function getBreakpoint(windowWidth) {
@@ -46,13 +40,65 @@ function getBreakpoint(windowWidth) {
 
 const ORBIT_DURATION_MS = 16000;
 
+// ─── Typewriter config ───────────────────────────────────────────────────────
+const WORDS = ["developer", "problem solver"];
+const TYPE_SPEED = 80; // ms per character typed
+const DELETE_SPEED = 50; // ms per character deleted
+const PAUSE_AFTER = 1800; // ms to pause when word is fully typed
+
+const useTypewriter = (words) => {
+  const [displayed, setDisplayed] = useState(words[0]);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const timeoutRef = useRef(null);
+
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+
+    const tick = () => {
+      if (!isDeleting) {
+        // Still typing
+        if (displayed.length < currentWord.length) {
+          setDisplayed(currentWord.slice(0, displayed.length + 1));
+          timeoutRef.current = setTimeout(tick, TYPE_SPEED);
+        } else {
+          // Fully typed — pause then start deleting
+          timeoutRef.current = setTimeout(() => {
+            setIsDeleting(true);
+          }, PAUSE_AFTER);
+        }
+      } else {
+        // Still deleting
+        if (displayed.length > 0) {
+          setDisplayed(displayed.slice(0, displayed.length - 1));
+          timeoutRef.current = setTimeout(tick, DELETE_SPEED);
+        } else {
+          // Fully deleted — move to next word
+          setIsDeleting(false);
+          setWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    };
+
+    timeoutRef.current = setTimeout(
+      tick,
+      isDeleting ? DELETE_SPEED : TYPE_SPEED,
+    );
+    return () => clearTimeout(timeoutRef.current);
+  }, [displayed, isDeleting, wordIndex, words]);
+
+  return displayed;
+};
+
 const Home = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   const animRef = useRef(null);
   const startTimeRef = useRef(performance.now());
   const bpRef = useRef(BREAKPOINTS[BREAKPOINTS.length - 1]);
 
-  // ─── Responsive breakpoint ────────────────────────────────────────────
+  const typedWord = useTypewriter(WORDS);
+
+  // ─── Responsive breakpoint ────────────────────────────────────────────────
   useEffect(() => {
     const update = () => {
       bpRef.current = getBreakpoint(window.innerWidth);
@@ -62,7 +108,7 @@ const Home = () => {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // ─── rAF loop ───────────────────────────────────────────────────────────
+  // ─── rAF loop ─────────────────────────────────────────────────────────────
   useEffect(() => {
     const loop = () => {
       forceUpdate();
@@ -72,20 +118,14 @@ const Home = () => {
     return () => cancelAnimationFrame(animRef.current);
   }, []);
 
-  // ─── Derived geometry ───────────────────────────────────────────────────
+  // ─── Derived geometry ─────────────────────────────────────────────────────
   const { profileSize, radius } = bpRef.current;
-
-  // orbit-container must hold the full circle: diameter + one icon width for margin
   const containerSize = 2 * radius + ICON_SIZE;
-  // It's centred on the profile box, so it overhangs equally on each side
   const offset = (containerSize - profileSize) / 2;
-
-  // Brush line Y in profile-side coords
   const brushY = profileSize * BRUSH_LINE_RATIO;
-  // Convert to orbit-container coords (container top is at -offset relative to profile)
   const clipHeight = brushY + offset;
 
-  // ─── Icon positions ─────────────────────────────────────────────────────
+  // ─── Icon positions ───────────────────────────────────────────────────────
   const elapsed = performance.now() - startTimeRef.current;
 
   const icons = ICONS.map((icon, i) => {
@@ -97,7 +137,6 @@ const Home = () => {
 
     const angleDeg = 90 - t * 360;
     const angleRad = (angleDeg * Math.PI) / 180;
-
     const x = radius * Math.cos(angleRad);
     const y = -radius * Math.sin(angleRad);
 
@@ -109,15 +148,21 @@ const Home = () => {
       <div className="home-inner">
         {/* LEFT: HERO CONTENT */}
         <div className="hero-content">
-          <p className="subtitle">ODOO / WEB DEVELOPER · 2025</p>
+          <p className="subtitle">ODOO / WEB DEVELOPER · 2026</p>
 
           <h1 className="name">
             Hello! I&apos;m <span className="last-name">Amrithesh</span>
           </h1>
+
           <p className="description">
-            I&apos;m a <span className="highlight">developer</span> who loves
-            building things that make people&apos;s work a little easier.
+            I&apos;m a{" "}
+            <span className="typewriter-word">
+              {typedWord}
+              <span className="typewriter-cursor" />
+            </span>{" "}
+            who enjoys building thoughtful solutions that make work easier.
           </p>
+
           <div className="availability">
             <span className="status-dot"></span>
             <span>Currently working</span>
@@ -125,15 +170,8 @@ const Home = () => {
           </div>
         </div>
 
-        {/* RIGHT: PROFILE + ORBIT
-            Layers (bottom → top):
-              1. .orbit-clip  z:1  — overflow:hidden, cuts icons at brush line
-              2. .brush-stroke z:2 — visual brush on top of the cut edge
-              3. .profile-image-wrapper z:3 — photo on top of everything
-        */}
+        {/* RIGHT: PROFILE + ORBIT */}
         <div className="profile-side">
-          {/* Layer 1 — clip wrapper. Sized & positioned by JS so it's always
-              correct regardless of breakpoint. */}
           <div
             className="orbit-clip"
             style={{
@@ -143,7 +181,6 @@ const Home = () => {
               height: clipHeight,
             }}
           >
-            {/* orbit-container — full circle size, icons centred at 50%/50% */}
             <div
               className="orbit-container"
               style={{ width: containerSize, height: containerSize }}
@@ -166,10 +203,8 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Layer 2 — brush texture */}
           <img src={brushStroke} alt="" className="brush-stroke" />
 
-          {/* Layer 3 — profile photo */}
           <div className="profile-image-wrapper">
             <img src={profileImage} alt="Amrithesh" className="profile-image" />
           </div>

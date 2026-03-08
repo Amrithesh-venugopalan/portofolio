@@ -39,7 +39,7 @@ const experiences = [
     ],
     details: {
       contribution:
-        "Developing custom Odoo modules tailored to business requirements. Handling version migrations, database optimization, and third-party integrations. Providing technical training to clients and resolving production issues efficiently.",
+        "Developing custom Odoo modules tailored to business requirements. Handling version migrations, database optimization, and third-party integrations. Providing technical training to clients and junior developers, resolving production issues efficiently.",
       links: [],
     },
   },

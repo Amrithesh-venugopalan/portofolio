@@ -13,8 +13,9 @@ const Sidebar = ({ activeSection, onNavigate }) => {
   const programmaticScrollTimeout = useRef(null);
 
   // ─── Desktop pill state ───
-  const [showDesktopPill, setShowDesktopPill] = useState(false);
-  const desktopPillTimeout = useRef(null);
+  const [showActivePill, setShowActivePill] = useState(false); // auto-show on section change
+  const [hoveredId, setHoveredId] = useState(null); // hover-show on any icon
+  const activePillTimeout = useRef(null);
 
   // ─── Mobile pill state ───
   const [isMobile, setIsMobile] = useState(false);
@@ -26,67 +27,54 @@ const Sidebar = ({ activeSection, onNavigate }) => {
       setIsMobileCarousel(w < 420);
       setIsMobile(w <= 768);
     };
-
     checkWidth();
     window.addEventListener("resize", checkWidth);
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
-  // ── Desktop pill: show on intersection, auto-hide after 1.5 s ──
+  // ── Desktop pill: auto-show on section change, hide after 1.5 s ──
   const prevActiveSection = useRef(activeSection);
 
   useEffect(() => {
-    if (isMobile) return; // desktop-only
+    if (isMobile) return;
 
-    // Only trigger when activeSection actually changed
     if (prevActiveSection.current !== activeSection) {
       prevActiveSection.current = activeSection;
 
-      // Clear any running timer
-      if (desktopPillTimeout.current) {
-        clearTimeout(desktopPillTimeout.current);
-      }
+      if (activePillTimeout.current) clearTimeout(activePillTimeout.current);
 
-      // Only show pill if not on home section
       if (activeSection !== "home") {
-        setShowDesktopPill(true);
-
-        desktopPillTimeout.current = setTimeout(() => {
-          setShowDesktopPill(false);
+        setShowActivePill(true);
+        activePillTimeout.current = setTimeout(() => {
+          setShowActivePill(false);
         }, 1500);
       } else {
-        setShowDesktopPill(false);
+        setShowActivePill(false);
       }
     }
 
     return () => {
-      if (desktopPillTimeout.current) {
-        clearTimeout(desktopPillTimeout.current);
-      }
+      if (activePillTimeout.current) clearTimeout(activePillTimeout.current);
     };
   }, [activeSection, isMobile]);
 
-  // ── Carousel sync (unchanged logic) ──
+  // ── Carousel sync ──
   useEffect(() => {
-    if (!isMobileCarousel || isAnimating || isProgrammaticScroll.current) {
+    if (!isMobileCarousel || isAnimating || isProgrammaticScroll.current)
       return;
-    }
 
     const activeIndex = navigationItems.findIndex(
       (item) => item.id === activeSection,
     );
-
     if (activeIndex === -1) return;
 
     const requiredPage = activeIndex < 4 ? 0 : 1;
 
     if (requiredPage !== currentPage) {
       const direction = requiredPage > currentPage ? "left" : "right";
-
       requestAnimationFrame(() => {
         setSlideDirection(direction);
         setIsAnimating(true);
-
         setTimeout(() => {
           setCurrentPage(requiredPage);
           setIsAnimating(false);
@@ -98,31 +86,20 @@ const Sidebar = ({ activeSection, onNavigate }) => {
 
   const handlePrevious = () => {
     if (isAnimating) return;
-
     const newPage = currentPage === 0 ? 1 : 0;
     const firstIconOfNewPage = navigationItems[newPage * 4];
-
     isProgrammaticScroll.current = true;
     setHideHighlight(true);
-
-    if (programmaticScrollTimeout.current) {
+    if (programmaticScrollTimeout.current)
       clearTimeout(programmaticScrollTimeout.current);
-    }
-
     setSlideDirection("right");
     setIsAnimating(true);
-
     setTimeout(() => {
       setCurrentPage(newPage);
       setIsAnimating(false);
       setSlideDirection("");
-
       onNavigate(firstIconOfNewPage.id);
-
-      setTimeout(() => {
-        setHideHighlight(false);
-      }, 100);
-
+      setTimeout(() => setHideHighlight(false), 100);
       programmaticScrollTimeout.current = setTimeout(() => {
         isProgrammaticScroll.current = false;
       }, 1000);
@@ -131,31 +108,20 @@ const Sidebar = ({ activeSection, onNavigate }) => {
 
   const handleNext = () => {
     if (isAnimating) return;
-
     const newPage = currentPage === 0 ? 1 : 0;
     const firstIconOfNewPage = navigationItems[newPage * 4];
-
     isProgrammaticScroll.current = true;
     setHideHighlight(true);
-
-    if (programmaticScrollTimeout.current) {
+    if (programmaticScrollTimeout.current)
       clearTimeout(programmaticScrollTimeout.current);
-    }
-
     setSlideDirection("left");
     setIsAnimating(true);
-
     setTimeout(() => {
       setCurrentPage(newPage);
       setIsAnimating(false);
       setSlideDirection("");
-
       onNavigate(firstIconOfNewPage.id);
-
-      setTimeout(() => {
-        setHideHighlight(false);
-      }, 100);
-
+      setTimeout(() => setHideHighlight(false), 100);
       programmaticScrollTimeout.current = setTimeout(() => {
         isProgrammaticScroll.current = false;
       }, 1000);
@@ -164,9 +130,8 @@ const Sidebar = ({ activeSection, onNavigate }) => {
 
   useEffect(() => {
     return () => {
-      if (programmaticScrollTimeout.current) {
+      if (programmaticScrollTimeout.current)
         clearTimeout(programmaticScrollTimeout.current);
-      }
     };
   }, []);
 
@@ -177,15 +142,8 @@ const Sidebar = ({ activeSection, onNavigate }) => {
     ? navigationItems.slice(startIndex, startIndex + iconsPerPage)
     : navigationItems;
 
-  // Current active item's label (used by both pills)
   const activeItem = navigationItems.find((item) => item.id === activeSection);
   const activeLabel = activeItem ? activeItem.label : "";
-
-  // For desktop pill: find the index of the active item *within visibleItems*
-  // so we can position it next to the correct icon
-  const activeVisibleIndex = visibleItems.findIndex(
-    (item) => item.id === activeSection,
-  );
 
   return (
     <>
@@ -212,42 +170,38 @@ const Sidebar = ({ activeSection, onNavigate }) => {
         <div
           className={`sidebar ${slideDirection ? `slide-${slideDirection}` : ""}`}
         >
-          {visibleItems.map(({ id, Icon, label }, index) => {
+          {visibleItems.map(({ id, Icon, label }) => {
             const isActive = !hideHighlight && activeSection === id;
+
+            /*
+              Show pill if:
+              1. Hovering over this icon (any icon, any section), OR
+              2. This is the active section AND the auto-show timer is running
+              Either way, skip "home" and skip mobile.
+            */
+            const showPill =
+              !isMobile &&
+              id !== "home" &&
+              (hoveredId === id || (isActive && showActivePill));
 
             return (
               <div
                 key={id}
                 className="sidebar-icon-wrapper"
                 onMouseEnter={() => {
-                  // Desktop hover: show pill if this is the active icon and not home
-                  if (
-                    !isMobile &&
-                    isActive &&
-                    !showDesktopPill &&
-                    id !== "home"
-                  ) {
-                    setShowDesktopPill(true);
-                  }
+                  if (!isMobile) setHoveredId(id);
                 }}
                 onMouseLeave={() => {
-                  // Desktop hover-out: hide pill only if the auto-show timer already expired
-                  if (!isMobile && isActive && !desktopPillTimeout.current) {
-                    setShowDesktopPill(false);
-                  }
+                  if (!isMobile) setHoveredId(null);
                 }}
               >
                 <button
                   className={`sidebar-btn ${isActive ? "active" : ""}`}
                   onClick={() => {
                     isProgrammaticScroll.current = true;
-
-                    if (programmaticScrollTimeout.current) {
+                    if (programmaticScrollTimeout.current)
                       clearTimeout(programmaticScrollTimeout.current);
-                    }
-
                     onNavigate(id);
-
                     programmaticScrollTimeout.current = setTimeout(() => {
                       isProgrammaticScroll.current = false;
                     }, 1000);
@@ -257,8 +211,7 @@ const Sidebar = ({ activeSection, onNavigate }) => {
                   <Icon size={20} />
                 </button>
 
-                {/* Desktop pill — rendered next to each icon but only visible on the active one (except home) */}
-                {!isMobile && isActive && showDesktopPill && id !== "home" && (
+                {showPill && (
                   <span className="desktop-section-pill">{label}</span>
                 )}
               </div>

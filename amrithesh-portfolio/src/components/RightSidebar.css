@@ -1,4 +1,4 @@
-/* Desktop Sidebar */
+/* ── Desktop Sidebar ─────────────────────────────────────────────────────── */
 .right-sidebar {
   width: 70px;
   background-color: white;
@@ -19,23 +19,11 @@
   z-index: 100;
 }
 
-.right-sidebar-btn {
-  padding: 8px 16px;
-  border: 1px solid #5b5fc7;
-  background-color: white;
-  color: #5b5fc7;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  display: none;
-}
-
-.right-sidebar-btn:hover {
-  background-color: #5b5fc7;
-  color: white;
+/* Each icon + its pill live in this wrapper */
+.right-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-icon-btn {
@@ -58,16 +46,50 @@
   color: #333;
 }
 
-/* Mobile Menu */
-.mobile-menu-container {
-  display: none;
+/* ── Desktop hover pill — mirrors Sidebar.css .desktop-section-pill ──────── */
+.right-section-pill {
+  position: absolute;
+  /* Float to the LEFT of the icon (right sidebar is on the right edge) */
+  right: calc(100% + 24px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  background-color: #fff;
+  color: #999;
+  border: 1.5px solid #999;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  z-index: 2;
+
+  /* fade + slide in from the right */
+  animation: rightPillFadeIn 0.25s ease-out forwards;
 }
 
+@keyframes rightPillFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) translateX(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+/* ── Show/hide between desktop and mobile ────────────────────────────────── */
 .desktop-only {
   display: flex;
 }
 
-/* Mobile Styles */
+.mobile-menu-container {
+  display: none;
+}
+
+/* ── Mobile Styles ───────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .desktop-only {
     display: none;
@@ -77,7 +99,7 @@
     display: block;
   }
 
-  /* Hamburger Button - OPTION 1: Rotate */
+  /* Hamburger Button */
   .hamburger-btn {
     position: fixed;
     top: 20px;
@@ -161,7 +183,7 @@
     }
   }
 
-  /* Slide-in Menu from Right - Content-based height with rounded corners */
+  /* Slide-in Menu */
   .slide-menu {
     position: fixed;
     top: 20px;

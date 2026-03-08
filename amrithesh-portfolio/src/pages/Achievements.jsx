@@ -7,106 +7,98 @@ import udemy from "../assets/udemy.png";
 const achievementsData = [
   {
     id: 1,
-    title: "100 Days of Code: The Complete Python Pro Bootcamp for 2023",
+    title: "100 Days of Code™: The Complete Python Pro Bootcamp",
+    provider: "Udemy",
+    image: udemy,
+    skills: ["Python", "Html", "CSS", "Data Structures", "OOP"],
+    credentialUrl: "http://ude.my/UC-ddec271d-03ff-4b38-9474-f7f530660686",
+  },
+  {
+    id: 2,
+    title: "The Complete JavaScript Course 2025: From Zero to Expert!",
+    provider: "Udemy",
+    image: udemy,
+    skills: ["JavaScript", "ES6+", "DSA", "Web development", "OOP"],
+    credentialUrl:
+      "https://www.udemy.com/certificate/UC-34b55668-bb2b-4402-abc9-2e0d8124fc62/",
+  },
+  {
+    id: 3,
+    title: "The Ultimate React Course 2025: React, Next.js, Redux & More",
+    provider: "Udemy",
+    image: udemy,
+    skills: ["React", "Next.js", "Redux", "TypeScript"],
+    credentialUrl: "",
+  },
+  {
+    id: 4,
+    title: "The Complete Data Structures and Algorithms Course in Python",
     provider: "Udemy",
     image: udemy,
     skills: [
       "Python",
       "Data Structures",
-      "Automation",
-      "Web Scraping",
-      "HTML5",
-      "CSS3",
-      "Flexbox",
-      "Grid",
-      "Responsive Design",
-      "UI Design",
-      "UX Design",
-      "Figma",
-      "Mobile Design",
+      "Algorithms",
+      "Problem Solving",
+      "Big O",
     ],
-    credentialUrl: "http://ude.my/UC-ddec271d-03ff-4b38-9474-f7f530660686",
-  },
-  {
-    id: 2,
-    title: "Build Responsive Real-World Websites with HTML and CSS",
-    provider: "Udemy",
-    image: udemy,
-    skills: ["HTML5", "CSS3", "Flexbox", "Grid", "Responsive Design"],
-    credentialUrl: "http://ude.my/UC-ddec271d-03ff-4b38-9474-f7f530660686",
-  },
-  {
-    id: 3,
-    title: "Complete Web and Mobile Designer 2023",
-    provider: "Udemy",
-    image: udemy,
-    skills: ["UI Design", "UX Design", "Figma", "Mobile Design"],
-    credentialUrl: "http://ude.my/UC-ddec271d-03ff-4b38-9474-f7f530660686",
-  },
-  {
-    id: 4,
-    title: "The Complete JavaScript Course 2024: From Zero to Expert",
-    provider: "Udemy",
-    image: udemy,
-    skills: ["JavaScript", "ES6+", "Async/Await", "DOM"],
-    credentialUrl: "http://ude.my/UC-ddec271d-03ff-4b38-9474-f7f530660686",
+    credentialUrl: "",
   },
   {
     id: 5,
-    title: "React - The Complete Guide 2024 (incl. Next.js, Redux)",
+    title: "Build Responsive Real-World Websites with HTML and CSS",
     provider: "Udemy",
     image: udemy,
-    skills: ["React", "Next.js", "Redux", "Hooks"],
-    credentialUrl: "#",
+    skills: ["HTML5", "CSS3", "Responsive Design", "Web Development"],
+    credentialUrl:
+      "https://www.udemy.com/certificate/UC-ddec271d-03ff-4b38-9474-f7f530660686/",
   },
   {
     id: 6,
-    title: "Node.js, Express, MongoDB & More: The Complete Bootcamp",
+    title: "Complete Web & Mobile Designer: UI/UX, Figma, +more",
     provider: "Udemy",
     image: udemy,
-    skills: ["Node.js", "Express", "MongoDB", "REST APIs"],
-    credentialUrl: "#",
+    skills: ["UI Design", "UX Design", "Figma", "Mobile Design", "Prototyping"],
+    credentialUrl:
+      "https://www.udemy.com/certificate/UC-832e0d9e-43a2-4e7d-8d6d-e042eb3caf96/",
   },
   {
     id: 7,
-    title: "Advanced CSS and Sass: Flexbox, Grid, Animations and More",
+    title: "The Git & Github Bootcamp",
     provider: "Udemy",
     image: udemy,
-    skills: ["CSS", "Sass", "Animations", "Flexbox", "Grid"],
-    credentialUrl: "#",
+    skills: [
+      "Git",
+      "GitHub",
+      "Version Control",
+      "Collaboration",
+      "GitHub Operations",
+    ],
+    credentialUrl: "",
   },
   {
     id: 8,
-    title: "The Web Developer Bootcamp 2024",
+    title: "The Linux Command Line Bootcamp: Beginner To Power User",
     provider: "Udemy",
     image: udemy,
-    skills: ["Full Stack", "HTML", "CSS", "JavaScript", "Node.js"],
-    credentialUrl: "#",
+    skills: ["Linux", "Shell Scripting", "CLI"],
+    credentialUrl: "",
+  },
+  {
+    id: 9,
+    title: "Python for Data Science and Machine Learning Bootcamp",
+    provider: "Udemy",
+    image: udemy,
+    skills: ["Python", "Pandas", "NumPy", "Matplotlib", "Machine Learning"],
+    credentialUrl: "",
   },
 ];
 
 const Achievements = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [achievementsPerPage, setAchievementsPerPage] = useState(4);
+  const [achievementsPerPage] = useState(4);
   const listRef = useRef(null);
 
-  useEffect(() => {
-    const updateAchievementsPerPage = () => {
-      setAchievementsPerPage(4);
-    };
-
-    updateAchievementsPerPage();
-    window.addEventListener("resize", updateAchievementsPerPage);
-    return () =>
-      window.removeEventListener("resize", updateAchievementsPerPage);
-  }, []);
-
-  /*
-    After each page change the list remounts (via key={currentPage}).
-    Cards render without .mounted → opacity:0 translateY(20px).
-    One rAF later we add .mounted → CSS transition animates them in
-    with staggered delays. Hover translateY(-4px) works freely.
-  */
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       if (listRef.current) {
@@ -134,14 +126,13 @@ const Achievements = () => {
   return (
     <div className="achievements-page">
       <div className="achievements-container">
-        {/* key={currentPage} remounts list on page change */}
         <div className="achievements-list" key={currentPage} ref={listRef}>
           {currentAchievements.map((achievement) => (
             <div key={achievement.id} className="achievement-card">
               {/* Left: Image */}
               <div className="achievement-image">
                 {achievement.image ? (
-                  <img src={achievement.image} alt={achievement.title} />
+                  <img src={achievement.image} alt={achievement.provider} />
                 ) : (
                   <div className="achievement-image-placeholder">
                     <Award />
@@ -151,7 +142,6 @@ const Achievements = () => {
 
               {/* Right: Content */}
               <div className="achievement-content">
-                {/* Top row: title + provider + credentials button */}
                 <div className="achievement-header">
                   <div className="achievement-info">
                     <h3 className="achievement-title">{achievement.title}</h3>
@@ -162,7 +152,7 @@ const Achievements = () => {
                     </div>
                   </div>
 
-                  {/* Show Credentials Button */}
+                  {/* Only render button when credentialUrl is non-empty */}
                   {achievement.credentialUrl && (
                     <a
                       href={achievement.credentialUrl}
@@ -178,7 +168,6 @@ const Achievements = () => {
                   )}
                 </div>
 
-                {/* Skills as pills */}
                 <div className="achievement-skills">
                   {achievement.skills.map((skill, i) => (
                     <span key={i} className="skill-pill">
@@ -191,7 +180,6 @@ const Achievements = () => {
           ))}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="pagination">
             <button
